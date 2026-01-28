@@ -35,7 +35,7 @@ public class ProfileController {
      * Post request that gets client profile registration info and then checks to see if information is not
      *      a duplicate in the database. If info is not a duplicate, it sets Authorization headers
      *      and calls profile service to add the request body profile to the database.
-     * @param profile
+     * @param profile profile we are dealing with
      * @return a response with the new profile and status created
      */
     @NoAuthIn
@@ -61,7 +61,7 @@ public class ProfileController {
     /**
      * Get Mapping that grabs the profile by the path variable id. It then returns the profile if it is valid.
      *
-     * @param id
+     * @param id id for profile we are dealing with
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
     @GetMapping("{id}")
@@ -80,7 +80,7 @@ public class ProfileController {
      * If no token is sent in the token it fails the Auth and doesn't update the
      * profile.	
      * 
-     * @param profile
+     * @param profile profile we are dealing with
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
     @PutMapping
