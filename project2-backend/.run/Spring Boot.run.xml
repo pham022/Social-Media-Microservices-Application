@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Spring Boot" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <envs>
+      <env name="spring.config.location" value="file:C:\Users\Jacob\IdeaProjects\Revature\Social-Media-Microservices-Application\project2-backend\ComReactService\src\main\resources\application.properties" />
+    </envs>
+    <option name="envFilePaths">
+      <option value="$PROJECT_DIR$/ComReactService/src/main/resources/application.properties" />
+    </option>
+    <module name="ComReactService" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="org.revature.comreact.ComReactServiceApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
