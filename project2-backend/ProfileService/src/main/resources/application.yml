@@ -1,0 +1,35 @@
+# This is another way to store properties for our Spring Boot app
+# If we saw a field like server.port=8081
+# We can re-write it like this:
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:profiles
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  h2:
+    console:
+      enabled: true
+      path: /h2-console # if we navigate to localhost:8081/h2-console, we will see the console
+  jpa:
+    hibernate:
+      ddl-auto: update # tables will be updated based on our entities (created if doesn't exist yet)
+    properties:
+      hibernate:
+        format_sql: true # see SQL statements printed/formatted in our terminal
+  cloud:
+    consul:
+      enabled: false # This takes a bit of set up, will do this later
+    config:
+      enabled: false
+
+# Set up/enable some actuator endpoints:
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+# equivalent to (application.properties): management.endpoints.web.exposure.include=health,info

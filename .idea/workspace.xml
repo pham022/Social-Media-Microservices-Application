@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5a73da38-9124-4bce-97e4-4452db66515c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project2-backend/.run/Spring Boot.run.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project2-backend/ComReactService/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project2-backend/ComReactService/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project2-backend/ComReactService/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project2-backend/ComReactService/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project2-backend/ComReactService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project2-backend/ComReactService/src/main/java/org/revature/comreact/controllers/CommentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project2-backend/ComReactService/src/main/java/org/revature/comreact/controllers/ReactionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project2-backend/ComReactService/src/main/java/org/revature/comreact/entities/Comment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project2-backend/ComReactService/src/main/java/org/revature/comreact/entities/Reaction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project2-backend/ComReactService/src/main/java/org/revature/comreact/enums/ReactionType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project2-backend/ComReactService/src/main/java/org/revature/comreact/repositories/CommentRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project2-backend/ComReactService/src/main/java/org/revature/comreact/repositories/ReactionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project2-backend/ComReactService/src/main/java/org/revature/comreact/services/CommentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project2-backend/ComReactService/src/main/java/org/revature/comreact/services/ReactionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project2-backend/src/main/java/com/example/project2_backend/Project2BackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/project2-backend/src/main/java/com/revature/Project2BackendApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project2-backend/src/test/java/com/example/project2_backend/Project2BackendApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/project2-backend/src/test/java/com/revature/Project2BackendApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="38tolRDRHp69CQI0HKwhMs1Sdzz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.Project2BackendApplicationTests.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.Project2BackendApplication.executor": "Run",
+    "git-widget-placeholder": "comments",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Jacob/IdeaProjects/Revature/Social-Media-Microservices-Application",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="project2-backend" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="project2-backend" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5a73da38-9124-4bce-97e4-4452db66515c" name="Changes" comment="" />
+      <created>1769628378635</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1769628378635</updated>
+    </task>
+    <servers />
+  </component>
+</project>
