@@ -22,7 +22,7 @@ import java.util.List;
 public class Profile {
 	@Id
 	@Column(name = "profile_id")
-	private int pid;
+	private Long pid;
 	@Column(name = "username", columnDefinition = "TEXT", nullable = false, unique = true)
 	private String username;
 	@Column(name = "password", columnDefinition = "TEXT", nullable = false, unique = true)
@@ -48,7 +48,7 @@ public class Profile {
 		pid = SecurityUtil.getId();
 	}
 
-	public Profile(int pid, String username, String password, String firstName, String lastName, String bio, boolean verification) {
+	public Profile(Long pid, String username, String password, String firstName, String lastName, String bio, boolean verification) {
 		this.pid = pid;
 		this.username = username;
 		this.password = password;
@@ -59,16 +59,12 @@ public class Profile {
 	}
 
 	public Profile(String username, String password, String firstName, String lastName, String bio, boolean verification) {
-		this();
+		pid = SecurityUtil.getId();
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.bio = bio;
 		this.verification = verification;
-	}
-	
-	public Profile(String firstName) {
-		this.firstName = firstName;
 	}
 }

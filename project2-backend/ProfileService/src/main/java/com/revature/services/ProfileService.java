@@ -45,7 +45,7 @@ public class ProfileService {
      * @param pid id of the profile we are looking for
      * @return profile object from database.
      */
-    public Profile getProfileByPid(Integer pid) {
+    public Profile getProfileByPid(Long pid) {
         return profileRepo.getProfileByPid(pid);
     }
 
@@ -66,30 +66,22 @@ public class ProfileService {
      * @return updated profile if it exists otherwise return null.
      */
     public Profile updateProfile(Profile profile) {
-    	
     	log.info(profile);
-    	 Profile targetProfile;
-    	if(profile.getPid() <= 0) {
-    		targetProfile = profileRepo.getProfileByUsername(profile.getUsername());
-    	} else {
-    		targetProfile = profileRepo.getProfileByPid(profile.getPid());
-    	}
-
-        if (targetProfile!=null) {
-            if (profile.getBio()!=null) targetProfile.setBio(profile.getBio());
-            if (profile.getFirstName()!=null) targetProfile.setFirstName(profile.getFirstName());
-            if (profile.getLastName()!=null) targetProfile.setLastName(profile.getLastName());
-            if (profile.getPassword()!=null) targetProfile.setPassword(SecurityUtil.hashPassword(profile.getPassword()));
-            targetProfile.setVerification(profile.isVerification());
-            if(profile.getImgurl() != null) {
-            	log.info(profile.getImgurl());
-            	log.error("here we go   " + profile.getImgurl() );
-            	targetProfile.setImgurl(profile.getImgurl()) ;
-            }
-            return profileRepo.save(targetProfile);
-        } else {
-            return null;
+        Profile targetProfile;
+        targetProfile = profileRepo.getProfileByUsername(profile.getUsername());
+        log.info("Target Profile: " + targetProfile.toString());
+        if (profile.getBio() != null) targetProfile.setBio(profile.getBio());
+        if (profile.getFirstName() != null) targetProfile.setFirstName(profile.getFirstName());
+        if (profile.getLastName() != null) targetProfile.setLastName(profile.getLastName());
+        if (profile.getPassword() != null)
+            targetProfile.setPassword(SecurityUtil.hashPassword(profile.getPassword()));
+        targetProfile.setVerification(profile.isVerification());
+        if (profile.getImgurl() != null) {
+            log.info(profile.getImgurl());
+            log.error("here we go   " + profile.getImgurl());
+            targetProfile.setImgurl(profile.getImgurl());
         }
+        return profileRepo.save(targetProfile);
     }
 
     /**
@@ -123,10 +115,7 @@ public class ProfileService {
      * @return profile, null if unsuccessful
      */
     public Profile addFollowerByUsername(Profile profile, String username) {
-    	 	
         List<Profile> pList = profile.getFollowing();
-        
-        
         Profile followed = profileRepo.getProfileByUsername(username);
         if (followed != null && !followed.equals(profile)) {
             if (!pList.contains(followed)) {
@@ -144,7 +133,7 @@ public class ProfileService {
      * Calls ProfileRepo to get a page of profiles
      *
      * @param page profile of user initiating request
-     * 
+     *
      * @return page of profiles
      */
     public List<Profile> getAllProfilesPaginated(int page) {
@@ -165,7 +154,7 @@ public class ProfileService {
      */
 	public List<Profile> search(String query) {
 		Profile sampleProfile = new Profile();
-		sampleProfile.setPid(0);
+		sampleProfile.setPid(0L);
 		sampleProfile.setFirstName(query);
 		sampleProfile.setLastName(query);
 		sampleProfile.setUsername(query);

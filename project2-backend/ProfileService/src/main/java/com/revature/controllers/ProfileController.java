@@ -65,7 +65,7 @@ public class ProfileController {
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
     @GetMapping("{id}")
-    public ResponseEntity<ProfileDTO> getProfileByPid(@PathVariable("id")int id) {
+    public ResponseEntity<ProfileDTO> getProfileByPid(@PathVariable("id")Long id) {
         Profile profile = profileService.getProfileByPid(id);
         if (profile!=null) {
             return new ResponseEntity<>(new ProfileDTO(profile), HttpStatus.ACCEPTED);

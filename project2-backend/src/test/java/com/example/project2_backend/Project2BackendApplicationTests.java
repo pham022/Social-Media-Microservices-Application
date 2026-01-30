@@ -1,4 +1,4 @@
-package com.example.project2_backend;
+package com.revature.project2_backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
