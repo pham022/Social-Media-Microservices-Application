@@ -144,12 +144,12 @@ public class SecurityUtil {
      * Generates a unique random id
      * @return the id
      */
-    public static Integer getId() {
+    public static Long getId() {
         UUID id = UUID.randomUUID();
         int uid = (""+id).hashCode();
         String filterStr = "" + uid;
         String str = filterStr.replace("-", "");
-        return Integer.parseInt(str);
+        return (long) Integer.parseInt(str);
     }
 
     /**
@@ -268,7 +268,7 @@ public class SecurityUtil {
 
             Map<String, Object> guts = claims.getJSONObjectClaim(PROFILE);
 
-            int id = (int) (long) guts.get(PID);
+            Long id = (Long) guts.get(PID);
             String username = (String) guts.get(USERNAME);
             String password = (String) guts.get(PASSWORD);
             String firstName = (String) guts.get(FIRST_NAME);

@@ -21,7 +21,7 @@ import java.util.List;
 @ToString(exclude = {"following"})
 public class ProfileDTO {
 
-	private int pid;
+	private Long pid;
 
 	private String username;
 
@@ -64,8 +64,9 @@ public class ProfileDTO {
 	}
 
 	public boolean isIncomplete() {
+		IO.println(this.toString());
 		return this.username == null || this.password == null || this.firstName == null || this.lastName == null
-				|| this.bio == null || this.following == null || this.username.isEmpty()
+				|| this.bio == null || this.username.isEmpty()
 				|| this.password.isEmpty() || this.firstName.isEmpty() || this.lastName.isEmpty() || this.bio.isEmpty()
 				|| this.pid < 100;
 	}

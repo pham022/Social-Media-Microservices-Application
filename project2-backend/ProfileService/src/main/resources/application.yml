@@ -6,7 +6,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:workshops
+    url: jdbc:h2:mem:profiles
     driver-class-name: org.h2.Driver
     username: sa
     password: password
