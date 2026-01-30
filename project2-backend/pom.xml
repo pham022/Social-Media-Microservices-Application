@@ -9,10 +9,11 @@
 		<version>4.0.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
+	<groupId>com.revature</groupId>
 	<artifactId>project2-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>project2-backend</name>
+    <packaging>pom</packaging>
+    <name>project2-backend</name>
 	<description>revature project 2</description>
 	<url/>
 	<licenses>
@@ -21,7 +22,10 @@
 	<developers>
 		<developer/>
 	</developers>
-	<scm>
+    <modules>
+        <module>ProfileService</module>
+    </modules>
+    <scm>
 		<connection/>
 		<developerConnection/>
 		<tag/>
