@@ -1,4 +1,4 @@
-package org.revature.comreact;
+package org.revature.comreact.comreact;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

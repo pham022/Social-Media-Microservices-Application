@@ -1,4 +1,4 @@
-package org.revature.services;
+package org.revature.comreact.services;
 
 import org.revature.comreact.entities.Reaction;
 import org.revature.comreact.repositories.ReactionRepository;

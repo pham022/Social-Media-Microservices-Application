@@ -24,6 +24,7 @@
 	</developers>
     <modules>
         <module>ProfileService</module>
+		<module>ComReactService</module>
     </modules>
     <scm>
 		<connection/>
