@@ -24,7 +24,12 @@
 	</developers>
     <modules>
         <module>ProfileService</module>
+<<<<<<< HEAD
 		<module>ComReactService</module>
+=======
+        <module>AuthService</module>
+        <module>ComReactService</module>
+>>>>>>> a1eaa0c230fc7f50a4c01245857fd634553b2325
     </modules>
     <scm>
 		<connection/>
@@ -42,7 +47,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
