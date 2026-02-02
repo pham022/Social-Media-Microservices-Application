@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfoDto {
+public class CurrentUserValidationResponse {
+    private boolean valid;
     private Long userId;
-    private String username;
     private String email;
-    private String role;
-    private boolean isActive;
+    private String username;
 }

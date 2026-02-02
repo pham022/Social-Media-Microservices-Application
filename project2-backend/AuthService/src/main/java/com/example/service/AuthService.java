@@ -3,20 +3,26 @@ package com.example.service;
 import com.example.dto.AuthResponse;
 import com.example.dto.LoginRequest;
 import com.example.dto.RegisterRequest;
+import com.example.dto.CurrentUserValidationResponse;
 import com.example.model.User;
 import com.example.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
+@RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
+    private final JwtService jwtService;
 
-    public AuthService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+//    public AuthService(UserRepository userRepository, JwtService jwtService, UserRepository userRepository1, JwtService jwtService1) {
+//        this.userRepository = userRepository1;
+//        this.jwtService = jwtService1;
+//    }
 
     @Transactional
-    public AuthResponse register(@RequestBody RegisterRequest request) {
+    public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already in use");
         }
@@ -31,23 +37,53 @@ public class AuthService {
 
         User savedUser = userRepository.save(user);
 
+        String token = jwtService.generateToken(
+                savedUser.getEmail(),
+                savedUser.getUsername()
+        );
+        user.setToken(token);
+
         return new AuthResponse(
                 savedUser.getId(),
+                savedUser.getToken(),
                 savedUser.getUsername(),
-                savedUser.getEmail()
+                savedUser.getEmail(),
+                "Registration successful"
         );
     }
 
     public AuthResponse login(LoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         return new AuthResponse(
+                user.getId(),
+                user.getToken(),
+                user.getUsername(),
+                user.getEmail(),
+                "Login successfully"
+        );
+    }
+
+    public boolean validateToken(String token) {
+        return jwtService.validateToken(token);
+    }
+
+    public CurrentUserValidationResponse getUserInfoFromToken(String token) {
+        if (!jwtService.validateToken(token)) {
+            throw new RuntimeException("Invalid token");
+        }
+
+        String email = jwtService.extractEmail(token);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return new CurrentUserValidationResponse(
+                true,
                 user.getId(),
                 user.getUsername(),
                 user.getEmail()
         );
     }
-
 
 }
