@@ -16,13 +16,13 @@ public class Post {
     @Column(name = "content", nullable = false, length = 2000)
     private String content;
     
-    @Column(name = "image_url", nullable = true)
+    @Column(name = "image_url")
     private String imageUrl;
-
-    @Column(name = "created_at", nullable = false)
+    
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
+    
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
     @PrePersist
