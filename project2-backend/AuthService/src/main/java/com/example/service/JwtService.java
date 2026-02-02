@@ -25,9 +25,9 @@ public class JwtService {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(String email, String username) {
+    public String generateToken(String email, Long userId) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", username);
+        claims.put("id", userId);
 
         return Jwts.builder()
                 .setClaims(claims)
