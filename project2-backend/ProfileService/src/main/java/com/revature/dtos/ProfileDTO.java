@@ -65,10 +65,8 @@ public class ProfileDTO {
 
 	public boolean isIncomplete() {
 		IO.println(this.toString());
-		return this.username == null || this.password == null || this.firstName == null || this.lastName == null
-				|| this.bio == null || this.username.isEmpty()
-				|| this.password.isEmpty() || this.firstName.isEmpty() || this.lastName.isEmpty() || this.bio.isEmpty()
-				|| this.pid < 100;
+		return this.username == null || this.password == null || this.username.isEmpty()
+				|| this.password.isEmpty() || this.pid < 100;
 	}
 	
 	public Profile toProfile() {
@@ -90,5 +88,15 @@ public class ProfileDTO {
 		this.imgurl = imgurl;
 		this.following = following;
 	}
-	
+	public ProfileDTO(String username, String password){
+		List<ProfileDTO> newFollowing = new LinkedList<>();
+		this.username = username;
+		this.password = password;
+		this.firstName = "";
+		this.lastName = "";
+		this.bio = "";
+		this.verification = false;
+		this.imgurl = "";
+		this.following = newFollowing;
+	}
 }
