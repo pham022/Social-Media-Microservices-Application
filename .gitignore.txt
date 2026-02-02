@@ -1,0 +1,3 @@
+# Ignore properties files
+*.properties
+
