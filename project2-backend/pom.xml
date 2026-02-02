@@ -11,7 +11,8 @@
 	<groupId>com.example</groupId>
 	<artifactId>project2-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>project2-backend</name>
+    <packaging>pom</packaging>
+    <name>project2-backend</name>
 	<description>revature project 2</description>
 	<url/>
 	<licenses>
@@ -20,7 +21,10 @@
 	<developers>
 		<developer/>
 	</developers>
-	<scm>
+    <modules>
+        <module>AuthService</module>
+    </modules>
+    <scm>
 		<connection/>
 		<developerConnection/>
 		<tag/>
@@ -36,7 +40,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
