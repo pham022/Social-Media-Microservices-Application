@@ -1,4 +1,4 @@
-package org.revature.repositories;
+package org.revature.comreact.repositories;
 
 import org.revature.comreact.entities.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;

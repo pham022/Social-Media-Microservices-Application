@@ -1,7 +1,7 @@
-package org.revature.controllers;
+package org.revature.comreact.controllers;
 
-import org.revature.entities.Reaction;
-import org.revature.services.ReactionService;
+import org.revature.comreact.entities.Reaction;
+import org.revature.comreact.services.ReactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package org.revature.entities;
+package org.revature.comreact.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;

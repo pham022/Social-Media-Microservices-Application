@@ -1,4 +1,4 @@
-package org.revature.controllers;
+package org.revature.comreact.controllers;
 
 import org.revature.comreact.entities.Comment;
 import org.revature.comreact.services.CommentService;
