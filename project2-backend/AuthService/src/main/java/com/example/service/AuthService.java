@@ -39,7 +39,7 @@ public class AuthService {
 
         String token = jwtService.generateToken(
                 savedUser.getEmail(),
-                savedUser.getUsername()
+                savedUser.getId()
         );
         user.setToken(token);
 
