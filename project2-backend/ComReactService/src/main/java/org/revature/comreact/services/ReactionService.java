@@ -1,9 +1,11 @@
 package org.revature.comreact.services;
 
 import org.revature.comreact.entities.Reaction;
+import org.revature.comreact.enums.ReactionType;
 import org.revature.comreact.repositories.ReactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,8 +15,17 @@ public class ReactionService {
     @Autowired
     private ReactionRepository reactionRepository;
 
-    public Reaction insert(Reaction reaction) {
-        return reactionRepository.save(reaction);
+    @Transactional
+    public Reaction create(Reaction reaction) {
+        Reaction old = reactionRepository.getByUserId(reaction.getUserId());
+        if(old == null) {
+            return reactionRepository.save(reaction);
+        } else if(old.getReaction().equals(reaction.getReaction())) {
+            return null;
+        } else {
+            old.setReaction(reaction.getReaction());
+            return reactionRepository.save(old);
+        }
     }
 
     public Reaction getById(Long id) {
@@ -28,4 +39,10 @@ public class ReactionService {
     public List<Reaction> getByPostId(Long id) {
         return reactionRepository.getByPostId(id);
     }
+
+//    public Reaction getByUserId(Long id) { return reactionRepository.getByUserId(id); }
+
+    public void deleteById(Long id) { reactionRepository.deleteById(id); }
+
+//    public Reaction update(Reaction reaction) { return reactionRepository.update(reaction); }
 }
