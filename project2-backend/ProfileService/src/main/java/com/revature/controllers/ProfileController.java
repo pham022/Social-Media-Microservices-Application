@@ -22,8 +22,8 @@ import java.util.List;
  */
 @Log4j2
 @RestController
-@RequestMapping("/profile")
-@CrossOrigin
+@RequestMapping("/profiles")
+@CrossOrigin(origins = "*")
 public class ProfileController {
 	
 	private static final String TOKEN_NAME = "Authorization";
