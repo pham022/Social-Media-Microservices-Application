@@ -1,4 +1,4 @@
-package com.example.model;
+package com.revature.model;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;

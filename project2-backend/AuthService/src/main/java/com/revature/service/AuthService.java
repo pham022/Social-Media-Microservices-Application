@@ -1,11 +1,11 @@
-package com.example.service;
+package com.revature.service;
 
-import com.example.dto.AuthResponse;
-import com.example.dto.LoginRequest;
-import com.example.dto.RegisterRequest;
-import com.example.dto.CurrentUserValidationResponse;
-import com.example.model.User;
-import com.example.repository.UserRepository;
+import com.revature.dto.AuthResponse;
+import com.revature.dto.LoginRequest;
+import com.revature.dto.RegisterRequest;
+import com.revature.dto.CurrentUserValidationResponse;
+import com.revature.model.User;
+import com.revature.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

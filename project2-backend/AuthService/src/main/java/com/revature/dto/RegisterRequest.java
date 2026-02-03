@@ -1,13 +1,16 @@
-package com.example.dto;
+package com.revature.dto;
 
 import lombok.Data;
 import lombok.NonNull;
 
 @Data
-public class LoginRequest {
+public class RegisterRequest {
 
     @NonNull
     private String username;
+
+    @NonNull
+    private String email;
 
     @NonNull
     private String password;
