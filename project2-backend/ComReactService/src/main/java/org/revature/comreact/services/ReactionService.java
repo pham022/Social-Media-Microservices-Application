@@ -17,7 +17,7 @@ public class ReactionService {
 
     @Transactional
     public Reaction create(Reaction reaction) {
-        Reaction old = reactionRepository.getByUserId(reaction.getUserId());
+        Reaction old = reactionRepository.getByUserIdAndPostId(reaction.getUserId(), reaction.getPostId());
         if(old == null) {
             return reactionRepository.save(reaction);
         } else if(old.getReaction().equals(reaction.getReaction())) {
