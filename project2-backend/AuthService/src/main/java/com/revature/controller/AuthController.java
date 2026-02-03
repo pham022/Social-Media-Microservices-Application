@@ -1,10 +1,10 @@
-package com.example.controller;
+package com.revature.controller;
 
-import com.example.dto.AuthResponse;
-import com.example.dto.LoginRequest;
-import com.example.dto.RegisterRequest;
-import com.example.dto.CurrentUserValidationResponse;
-import com.example.service.AuthService;
+import com.revature.dto.AuthResponse;
+import com.revature.dto.LoginRequest;
+import com.revature.dto.RegisterRequest;
+import com.revature.dto.CurrentUserValidationResponse;
+import com.revature.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

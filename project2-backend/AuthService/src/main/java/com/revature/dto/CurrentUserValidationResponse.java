@@ -1,4 +1,4 @@
-package com.example.dto;
+package com.revature.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
