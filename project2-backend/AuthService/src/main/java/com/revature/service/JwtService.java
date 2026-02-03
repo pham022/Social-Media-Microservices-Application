@@ -1,4 +1,4 @@
-package com.example.service;
+package com.revature.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
