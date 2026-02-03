@@ -28,11 +28,11 @@ public class Profile {
 	@Column(name = "password", columnDefinition = "TEXT", nullable = false, unique = true)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
-	@Column(name = "first_name", columnDefinition = "TEXT", nullable = false)
+	@Column(name = "first_name", columnDefinition = "TEXT")
 	private String firstName;
-	@Column(name = "last_name", columnDefinition = "TEXT", nullable = false)
+	@Column(name = "last_name", columnDefinition = "TEXT")
 	private String lastName;
-	@Column(name = "bio", columnDefinition = "TEXT", nullable = false, unique = true)
+	@Column(name = "bio", columnDefinition = "TEXT")
 	private String bio;
 	@Column(name = "verification", columnDefinition = "BOOLEAN", nullable = false)
 	private boolean verification = false;
@@ -66,5 +66,14 @@ public class Profile {
 		this.lastName = lastName;
 		this.bio = bio;
 		this.verification = verification;
+	}
+
+	public Profile(String username, String password) {
+		pid = SecurityUtil.getId();
+		this.username = username;
+		this.password = password;
+		this.firstName = "";
+		this.lastName = "";
+		this.bio = "";
 	}
 }
