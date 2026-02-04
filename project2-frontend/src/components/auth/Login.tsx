@@ -4,7 +4,7 @@ import styles from '../profile/Profile.module.css';
 import { useAuth } from '../../hooks/useAuth';
 
 export default function Login() {
-  const [userFormData, setUserFormData] = useState<Profile>({ username: '', password: ''});
+  const [userFormData, setUserFormData] = useState<Profile>({ email:'', username: '', password: ''});
   // retrieve login function from our custom hook:
   const {login} = useAuth();
 

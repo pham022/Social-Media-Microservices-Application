@@ -10,6 +10,7 @@ export default function UserProfile() {
   const [account, setAccount] = useState<Profile>(
     {       
       username: "",
+      email:"",
       password: "",
       firstName: "",
       lastName: "",

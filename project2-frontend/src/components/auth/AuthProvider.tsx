@@ -17,22 +17,20 @@ export default function AuthProvider({ children } : {children: React.ReactNode }
   const login = async (username: string, password: string) => {    
     try {
       let user = {username: username, password: password};
-      let response = await axios.post(`${base_url}/login`, user);
+      let response = await axios.post(`${base_url}/auth/login`, user);
       setUser(response.data);
     } catch (error:any) {
       console.error(error)
       // keep the message vague for security:
       alert("Username or password is incorrect");
     }
-    
-
   }
 
-    const register = async (username: string, password: string) => {    
+    const register = async (email: string, username: string, password: string) => {    
     try {
       console.log("Registering user:", username);
-      let user = {username: username, password: password};
-      let response = await axios.post(`${base_url}/profiles/register`, user);
+      let user = {email: email, username: username, password: password};
+      let response = await axios.post(`${base_url}/auth/register`, user);
       console.log("Registration successful:", response.data);
       setUser(response.data);
       navigate('/profile');
