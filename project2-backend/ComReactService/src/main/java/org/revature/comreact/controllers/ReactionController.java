@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/reactions")
+@RequestMapping("/api/reactions")
 @RestController
 public class ReactionController {
 
