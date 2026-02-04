@@ -26,6 +26,8 @@
 		<module>ProfileService</module>
 		<module>ComReactService</module>
 		<module>AuthService</module>
+        <module>follow-service</module>
+        <module>post-service</module>
 	</modules>
 	<scm>
 		<connection/>
@@ -41,7 +43,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!-- Source: https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		 <!-- Source: https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

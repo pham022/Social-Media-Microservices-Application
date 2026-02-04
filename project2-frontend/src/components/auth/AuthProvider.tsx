@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { AuthContext, AuthContextValue, Profile } from '../util/types';
+import { AuthContext, AuthContextValue, Profile } from '../../types/profile';
 import axios from 'axios';
-import base_url from '../util/url';
+import base_url from '../../util/url';
 import { useNavigate } from 'react-router-dom';
 
 // Set up this provider
