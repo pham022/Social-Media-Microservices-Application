@@ -1,2 +1,9 @@
-let base_url:string = 'http://localhost:8081';
-export default base_url;
+const API_URLS = {
+  auth: 'http://localhost:8080',
+  profile: 'http://localhost:8082',
+  post: 'http://localhost:8083',
+  comreact: 'http://localhost:8084',
+  follow: 'http://localhost:8085'
+};
+
+export default API_URLS;
