@@ -2,15 +2,16 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AuthContext, Profiles, Profile } from '../../types/profile';
 import axios from 'axios';
-import base_url from '../../util/url';
+import API_URLS from '../../util/url';
 import styles from "./Profile.module.css";
 import { useAuth } from '../../hooks/useAuth';
+
 
 export default function UserProfile() {
   const [account, setAccount] = useState<Profile>(
     {       
       username: "",
-      email:"",
+      email: "",
       password: "",
       firstName: "",
       lastName: "",
@@ -38,7 +39,7 @@ export default function UserProfile() {
   useEffect(() => {
 
     if(id){
-      axios.get(`${base_url}/profiles/${id}`)
+      axios.get(`${API_URLS.profile}/profiles/${id}`)
         .then(response => { console.log(response.data);setAccount(response.data)})
         .catch(error => console.error(error))
     }
@@ -55,7 +56,7 @@ export default function UserProfile() {
     const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!account) return;
-    axios.put(`${base_url}/profiles`, formData)
+    axios.put(`${API_URLS.profile}/profiles`, formData)
       .then(response => {
         console.log(response.data);
         setAccount(response.data);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AuthContext, AuthContextValue, Profile } from '../../types/profile';
 import axios from 'axios';
-import base_url from '../../util/url';
+import API_URLS from '../../util/url';
 import { useNavigate } from 'react-router-dom';
 
 // Set up this provider
@@ -17,7 +17,7 @@ export default function AuthProvider({ children } : {children: React.ReactNode }
   const login = async (username: string, password: string) => {    
     try {
       let user = {username: username, password: password};
-      let response = await axios.post(`${base_url}/auth/login`, user);
+      let response = await axios.post(`${API_URLS.auth}/auth/login`, user);
       setUser(response.data);
     } catch (error:any) {
       console.error(error)
@@ -30,7 +30,7 @@ export default function AuthProvider({ children } : {children: React.ReactNode }
     try {
       console.log("Registering user:", username);
       let user = {email: email, username: username, password: password};
-      let response = await axios.post(`${base_url}/auth/register`, user);
+      let response = await axios.post(`${API_URLS.auth}/auth/register`, user);
       console.log("Registration successful:", response.data);
       setUser(response.data);
       navigate('/profile');
