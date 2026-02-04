@@ -18,8 +18,8 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${jwt.expiration}")
-    private Long expiration;
+//    @Value("${jwt.expiration}")
+//    private Long expiration;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());
@@ -33,7 +33,6 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
