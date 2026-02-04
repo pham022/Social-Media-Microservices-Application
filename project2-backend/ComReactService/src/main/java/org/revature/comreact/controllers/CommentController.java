@@ -1,6 +1,7 @@
 package org.revature.comreact.controllers;
 
 import org.revature.comreact.entities.Comment;
+import org.revature.comreact.exceptions.CommentNotFoundException;
 import org.revature.comreact.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,13 +21,15 @@ public class CommentController {
     public ResponseEntity<Comment> insert(@RequestBody Comment comment) {
         comment = this.commentService.insert(comment);
         System.out.println(comment);
-        if(comment != null) return new ResponseEntity<>(comment, HttpStatus.CREATED);
+        if (comment != null) return new ResponseEntity<>(comment, HttpStatus.CREATED);
         else return new ResponseEntity<>(new Comment(), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Comment> getById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(this.commentService.getById(id), HttpStatus.OK);
+    public ResponseEntity<Comment> getById(@PathVariable("id") Long id) throws CommentNotFoundException {
+        Comment comment = this.commentService.getById(id);
+        if (comment == null) throw new CommentNotFoundException(id);
+        return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
     @GetMapping()
@@ -39,4 +42,9 @@ public class CommentController {
         return new ResponseEntity<>(this.commentService.getByPostId(id), HttpStatus.OK);
     }
 
+    @DeleteMapping("{id}")
+    public void deleteById(@PathVariable("id") Long id) throws CommentNotFoundException {
+        if (this.commentService.getById(id) == null) throw new CommentNotFoundException(id);
+        this.commentService.deleteById(id);
+    }
 }

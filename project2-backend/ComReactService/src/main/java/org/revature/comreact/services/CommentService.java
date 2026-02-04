@@ -28,4 +28,10 @@ public class CommentService {
     public List<Comment> getByPostId(Long id) {
         return commentRepository.getByPostId(id);
     }
+
+    public void deleteById(Long id) { commentRepository.deleteById(id); }
+
+//    public Comment update(Comment comment) { return commentRepository.update(comment); }
+
+
 }
