@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { AuthContext, Profiles, Profile } from '../util/types';
+import { AuthContext, Profiles, Profile } from '../../types/profile';
 import axios from 'axios';
-import base_url from '../util/url';
+import base_url from '../../util/url';
 import styles from "./Profile.module.css";
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function UserProfile() {
   const [account, setAccount] = useState<Profile>(

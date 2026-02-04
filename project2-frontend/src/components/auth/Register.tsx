@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import { Profile } from '../util/types';
-import styles from './Profile.module.css';
-import { useAuth } from '../hooks/useAuth';
+import { Profile } from '../../types/profile';
+import styles from '../profile/Profile.module.css';
+import { useAuth } from '../../hooks/useAuth';
 
-export default function Login() {
+export default function Register() {
   const [userFormData, setUserFormData] = useState<Profile>({ username: '', password: ''});
+
   // retrieve login function from our custom hook:
-  const {login} = useAuth();
+  const {register} = useAuth();
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -18,9 +19,7 @@ export default function Login() {
 
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (userFormData.password) {
-      login(userFormData.username, userFormData.password);
-    }
+    if (userFormData.password) register(userFormData.username, userFormData.password);
   }
 
 
@@ -55,13 +54,12 @@ export default function Login() {
             onChange={onChangeHandler}
           />
         </div>
-
         <div className={styles.actions}>
           <button
             type="submit"
             className={`${styles.button} ${styles.primary}`}
           >
-            Log In
+            Register
           </button>
 
         </div>
