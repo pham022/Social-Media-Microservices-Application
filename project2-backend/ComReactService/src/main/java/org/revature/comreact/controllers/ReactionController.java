@@ -1,6 +1,7 @@
 package org.revature.comreact.controllers;
 
 import org.revature.comreact.entities.Reaction;
+import org.revature.comreact.exceptions.ReactionNotFoundException;
 import org.revature.comreact.services.ReactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,14 +19,16 @@ public class ReactionController {
 
     @PostMapping
     public ResponseEntity<Reaction> insert(@RequestBody Reaction reaction) {
-        reaction = this.reactionService.insert(reaction);
-        if(reaction != null) return new ResponseEntity<>(reaction, HttpStatus.CREATED);
+        reaction = this.reactionService.create(reaction);
+        if (reaction != null) return new ResponseEntity<>(reaction, HttpStatus.CREATED);
         else return new ResponseEntity<>(new Reaction(), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Reaction> getById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(this.reactionService.getById(id), HttpStatus.OK);
+    public ResponseEntity<Reaction> getById(@PathVariable("id") Long id) throws ReactionNotFoundException {
+        Reaction reaction = this.reactionService.getById(id);
+        if(reaction == null) throw new ReactionNotFoundException(id);
+        return new ResponseEntity<>(reaction, HttpStatus.OK);
     }
 
     @GetMapping()
@@ -36,5 +39,11 @@ public class ReactionController {
     @GetMapping("/posts/{id}")
     public ResponseEntity<List<Reaction>> getByPostId(@PathVariable("id") Long id) {
         return new ResponseEntity<>(this.reactionService.getByPostId(id), HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteById(@PathVariable("id") Long id) throws ReactionNotFoundException {
+        if(this.reactionService.getById(id) == null) throw new ReactionNotFoundException(id);
+        this.reactionService.deleteById(id);
     }
 }

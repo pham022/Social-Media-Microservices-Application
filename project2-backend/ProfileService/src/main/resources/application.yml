@@ -2,7 +2,7 @@
 # If we saw a field like server.port=8081
 # We can re-write it like this:
 server:
-  port: 8081
+  port: 8082
 
 spring:
   datasource:

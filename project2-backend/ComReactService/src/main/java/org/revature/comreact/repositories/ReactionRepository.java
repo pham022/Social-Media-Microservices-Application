@@ -1,6 +1,7 @@
 package org.revature.comreact.repositories;
 
 import org.revature.comreact.entities.Reaction;
+import org.revature.comreact.enums.ReactionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,9 @@ public interface ReactionRepository extends JpaRepository<Reaction, Long> {
 
 //    @Query(value = "select * from reaction where postId = :id", nativeQuery = true)
     List<Reaction> getByPostId(@Param("id") Long id);
+
+    Reaction getByUserIdAndPostId(@Param("userId") Long userId, @Param("postId") Long postId);
+
+//    Reaction update(@Param("reaction")Reaction reaction);
+
 }
