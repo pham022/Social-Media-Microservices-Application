@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './components/Login';
+import Login from './components/auth/Login';
 import Navbar from './components/Navbar';
-import AuthProvider from './components/AuthProvider';
-import Register from './components/Register';
-import UserProfile from './components/UserProfile';
+import AuthProvider from './components/auth/AuthProvider';
+import Register from './components/auth/Register';
+import UserProfile from './components/profile/UserProfile';
  
 function App() {
   return (
