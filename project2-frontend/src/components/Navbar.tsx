@@ -1,5 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './Navbar.module.css'
+<<<<<<< HEAD
+=======
+import { AuthContext } from '../util/types'
+>>>>>>> 37f76713933f2d99cc9de867b071f1e76270d34e
 import { useAuth } from '../hooks/useAuth'
 
 export default function Navbar() {

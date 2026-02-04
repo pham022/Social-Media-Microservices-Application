@@ -8,7 +8,11 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
+<<<<<<< HEAD
         <version>4.0.2</version>
+=======
+        <version>3.3.0</version>
+>>>>>>> 37f76713933f2d99cc9de867b071f1e76270d34e
         <relativePath/>
     </parent>
     
@@ -59,6 +63,7 @@
     <build>
         <plugins>
             <plugin>
+<<<<<<< HEAD
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -67,6 +72,8 @@
                 </configuration>
             </plugin>
             <plugin>
+=======
+>>>>>>> 37f76713933f2d99cc9de867b071f1e76270d34e
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
