@@ -19,6 +19,7 @@ export default function AuthProvider({ children } : {children: React.ReactNode }
       let user = {username: username, password: password};
       let response = await axios.post(`${API_URLS.auth}/auth/login`, user);
       setUser(response.data);
+      navigate('/profile');
     } catch (error:any) {
       console.error(error)
       // keep the message vague for security:
@@ -44,7 +45,7 @@ export default function AuthProvider({ children } : {children: React.ReactNode }
   // when we logout, set the user to null:
   const logout = () => {
     setUser(null);
-    navigate('/');
+    navigate('/login');
   }
 
   const value: AuthContextValue = {
