@@ -22,21 +22,12 @@
 	<developers>
 		<developer/>
 	</developers>
-<<<<<<< HEAD
-    <modules>
-        <module>ProfileService</module>
-		<module>ComReactService</module>
-        <module>AuthService</module>
-    </modules>
-    <scm>
-=======
 	<modules>
 		<module>ProfileService</module>
 		<module>ComReactService</module>
 		<module>AuthService</module>
 	</modules>
 	<scm>
->>>>>>> 21ef491c9238fed024cebc8bf96c858ae9efae8c
 		<connection/>
 		<developerConnection/>
 		<tag/>
