@@ -13,5 +13,8 @@ public class AuthResponse {
     private String username;
     private String email;
     private String message;
+    private String password;
+    private String firstName;
+    private String lastName;
     private ProfileResponse profile;
 }

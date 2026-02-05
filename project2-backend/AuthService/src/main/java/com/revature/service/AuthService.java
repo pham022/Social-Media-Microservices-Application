@@ -80,6 +80,9 @@ public class AuthService {
         response.setToken(user.getToken());
         response.setUsername(user.getUsername());
         response.setEmail(user.getEmail());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        response.setPassword(user.getPassword());
         response.setMessage("Login successful");
         response.setProfile(profile);
 
