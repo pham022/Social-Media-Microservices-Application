@@ -83,46 +83,57 @@ export default function MyWallPage({ userId, onViewUserWall }: MyWallPageProps) 
 
   return (
     <div className={styles.wallPage}>
-      <div className={styles.header}>
-        <div className={styles.profileInfo}>
-          <div className={styles.avatar}>
-            {profile?.imgurl || profile?.profilePic ? (
-              <img
-                src={profile.imgurl || profile.profilePic}
-                alt={profile.username}
-                style={{ width: '100%', height: '100%', borderRadius: '50%' }}
-              />
-            ) : (
-              <div className={styles.avatarPlaceholder}>
-                {profile?.username ? profile.username[0].toUpperCase() : 'U'}
+      <div className={styles.profileSection}>
+        <div className={styles.profileCard}>
+          <div className={styles.profileHeader}>
+            <div className={styles.avatar}>
+              {profile?.imgurl || profile?.profilePic ? (
+                <img
+                  src={profile.imgurl || profile.profilePic}
+                  alt={profile.username}
+                  className={styles.avatarImage}
+                />
+              ) : (
+                <div className={styles.avatarPlaceholder}>
+                  {profile?.username ? profile.username[0].toUpperCase() : 'U'}
+                </div>
+              )}
+            </div>
+            <div className={styles.profileInfo}>
+              <h2 className={styles.username}>{profile?.username || `User ${userId}`}</h2>
+              {profile?.firstName && profile?.lastName && (
+                <p className={styles.fullName}>{profile.firstName} {profile.lastName}</p>
+              )}
+              {profile?.bio && (
+                <p className={styles.bio}>{profile.bio}</p>
+              )}
+              <div className={styles.stats}>
+                <span className={styles.stat}>
+                  <strong>{followerCount}</strong> Followers
+                </span>
+                <span className={styles.stat}>
+                  <strong>{followingCount}</strong> Following
+                </span>
+                <span className={styles.stat}>
+                  <strong>{posts.length}</strong> Posts
+                </span>
               </div>
+            </div>
+            {!isOwnWall && (
+              <button className={styles.followButton} onClick={handleFollow}>
+                {isFollowing ? 'Unfollow' : 'Follow'}
+              </button>
             )}
           </div>
-          <div className={styles.userInfo}>
-            <h2 className={styles.username}>{profile?.username || `User ${userId}`}</h2>
-            <div className={styles.stats}>
-              <span className={styles.stat}>
-                <strong>{followerCount}</strong> Followers
-              </span>
-              <span className={styles.stat}>
-                <strong>{followingCount}</strong> Following
-              </span>
-              <span className={styles.stat}>
-                <strong>{posts.length}</strong> Posts
-              </span>
-            </div>
-          </div>
         </div>
-        {!isOwnWall && (
-          <button className={styles.followButton} onClick={handleFollow}>
-            {isFollowing ? 'Unfollow' : 'Follow'}
-          </button>
-        )}
       </div>
 
       <div className={styles.postsSection}>
-        <h3 className={styles.postsTitle}>Posts</h3>
-        {isOwnWall && <CreatePost onPostCreated={handleUpdatePost} />}
+        {isOwnWall && (
+          <div className={styles.createPostWrapper}>
+            <CreatePost onPostCreated={handleUpdatePost} />
+          </div>
+        )}
         {posts.length === 0 ? (
           <div className={styles.emptyState}>
             <div className={styles.emptyStateText}>No posts yet</div>
