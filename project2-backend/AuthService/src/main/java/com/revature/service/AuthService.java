@@ -1,18 +1,22 @@
 package com.revature.service;
 
-import com.revature.dto.AuthResponse;
-import com.revature.dto.LoginRequest;
-import com.revature.dto.RegisterRequest;
-import com.revature.dto.CurrentUserValidationResponse;
+//import com.revature.dto.AuthResponse;
+//import com.revature.dto.LoginRequest;
+//import com.revature.dto.RegisterRequest;
+import com.revature.dto.*;
 import com.revature.model.User;
 import com.revature.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+
+    @Autowired
+    private ProfileRestClientService profileClient;
     private final UserRepository userRepository;
     private final JwtService jwtService;
 
@@ -43,47 +47,47 @@ public class AuthService {
         );
         user.setToken(token);
 
-        return new AuthResponse(
-                savedUser.getId(),
-                savedUser.getToken(),
-                savedUser.getUsername(),
-                savedUser.getEmail(),
-                "Registration successful"
-        );
+        user = userRepository.save(user);
+
+        ProfileCreationRequest profileRequest = new ProfileCreationRequest();
+        profileRequest.setUsername(request.getUsername());
+        profileRequest.setPassword(request.getPassword());
+        profileRequest.setFirstName("");
+        profileRequest.setLastName("");
+        profileRequest.setBio("");
+
+        ProfileResponse profile = profileClient.createProfile(profileRequest);
+
+        AuthResponse response = new AuthResponse();
+        response.setUserId(user.getId());
+        response.setToken(token);
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        response.setMessage("Registration successful");
+        response.setProfile(profile);
+
+        return response;
     }
 
     public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return new AuthResponse(
-                user.getId(),
-                user.getToken(),
-                user.getUsername(),
-                user.getEmail(),
-                "Login successfully"
-        );
+        ProfileResponse profile = profileClient.getProfileByUsername(user.getUsername());
+
+        AuthResponse response = new AuthResponse();
+        response.setUserId(user.getId());
+        response.setToken(user.getToken());
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        response.setMessage("Login successful");
+        response.setProfile(profile);
+
+        return response;
     }
 
     public boolean validateToken(String token) {
         return jwtService.validateToken(token);
-    }
-
-    public CurrentUserValidationResponse getUserInfoFromToken(String token) {
-        if (!jwtService.validateToken(token)) {
-            throw new RuntimeException("Invalid token");
-        }
-
-        String email = jwtService.extractEmail(token);
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        return new CurrentUserValidationResponse(
-                true,
-                user.getId(),
-                user.getUsername(),
-                user.getEmail()
-        );
     }
 
 }
