@@ -16,7 +16,7 @@ public class Reaction {
 
 //    @ManyToOne
 //    @JoinColumn(name = "user_id_fk")
-    private long userId;
+    private String username;
 
 //    @ManyToOne
 //    @JoinColumn(name = "post_id_fk")
@@ -25,8 +25,8 @@ public class Reaction {
     @Enumerated(EnumType.STRING)
     private ReactionType reaction;
 
-    public Reaction(long userId, long postId, ReactionType reaction) {
-        this.userId = userId;
+    public Reaction(String username, long postId, ReactionType reaction) {
+        this.username = username;
         this.postId = postId;
         this.reaction = reaction;
     }
