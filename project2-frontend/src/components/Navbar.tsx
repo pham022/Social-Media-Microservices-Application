@@ -9,7 +9,7 @@ export default function Navbar() {
 
   const logoutHandler = () => {
     logout();
-    navigate('/');
+    navigate('/login');
   }
 
   return (
