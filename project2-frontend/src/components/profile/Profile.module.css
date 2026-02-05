@@ -80,6 +80,40 @@
 .createPostSection {
   width: 100%;
 }
+
+.avatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding: 24px 0;
+}
+
+.profileAvatar {
+  border: 3px solid #bfdbfe;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.avatarControls {
+  display: flex;
+  justify-content: center;
+}
+
+.avatarButton {
+  background: #3b82f6 !important;
+  color: #ffffff !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  transition: background 0.2s !important;
+}
+
+.avatarButton:hover {
+  background: #2563eb !important;
+}
  
 .form {
   display: flex;
