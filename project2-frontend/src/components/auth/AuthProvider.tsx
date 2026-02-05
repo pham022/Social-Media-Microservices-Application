@@ -18,16 +18,42 @@ export default function AuthProvider({ children } : {children: React.ReactNode }
     try {
       let user = {username: username, password: password};
       let response = await axios.post(`${API_URLS.auth}/auth/login`, user);
-      const userData = response.data;
-      // Normalize the response - handle both 'id' and 'profileId' fields
+      const authResponse = response.data;
+      
+      // Extract user data from AuthResponse
+      // AuthResponse has: userId, token, username, email, message, profile
+      // profile has: pid, username, firstName, lastName, bio, verification, imgurl
+      const userData: Profile = {
+        id: authResponse.profile?.pid || authResponse.userId,
+        profileId: authResponse.profile?.pid,
+        username: authResponse.username || authResponse.profile?.username,
+        email: authResponse.email,
+        password: '', // Don't store password
+        firstName: authResponse.profile?.firstName,
+        lastName: authResponse.profile?.lastName,
+        bio: authResponse.profile?.bio,
+        imgurl: authResponse.profile?.imgurl,
+        verification: authResponse.profile?.verification
+      };
+      
+      // Ensure both id and profileId are set
+      if (userData.profileId && !userData.id) {
+        userData.id = userData.profileId;
+      }
       if (userData.id && !userData.profileId) {
         userData.profileId = userData.id;
       }
+      
+      // Store token in localStorage
+      if (authResponse.token) {
+        localStorage.setItem('authToken', authResponse.token);
+      }
+      
+      console.log('Login response processed:', userData);
       setUser(userData);
       navigate('/feed');
-      navigate('/profile');
     } catch (error:any) {
-      console.error(error)
+      console.error('Login error:', error)
       // keep the message vague for security:
       alert("Username or password is incorrect");
     }
@@ -38,8 +64,37 @@ export default function AuthProvider({ children } : {children: React.ReactNode }
       console.log("Registering user:", username);
       let user = {email: email, username: username, password: password};
       let response = await axios.post(`${API_URLS.auth}/auth/register`, user);
-      console.log("Registration successful:", response.data);
-      setUser(response.data);
+      const authResponse = response.data;
+      
+      // Extract user data from AuthResponse (same structure as login)
+      const userData: Profile = {
+        id: authResponse.profile?.pid || authResponse.userId,
+        profileId: authResponse.profile?.pid,
+        username: authResponse.username || authResponse.profile?.username,
+        email: authResponse.email,
+        password: '', // Don't store password
+        firstName: authResponse.profile?.firstName,
+        lastName: authResponse.profile?.lastName,
+        bio: authResponse.profile?.bio,
+        imgurl: authResponse.profile?.imgurl,
+        verification: authResponse.profile?.verification
+      };
+      
+      // Ensure both id and profileId are set
+      if (userData.profileId && !userData.id) {
+        userData.id = userData.profileId;
+      }
+      if (userData.id && !userData.profileId) {
+        userData.profileId = userData.id;
+      }
+      
+      // Store token in localStorage
+      if (authResponse.token) {
+        localStorage.setItem('authToken', authResponse.token);
+      }
+      
+      console.log("Registration successful:", userData);
+      setUser(userData);
       navigate('/profile');
     } catch (error:any) {
       console.error(error)

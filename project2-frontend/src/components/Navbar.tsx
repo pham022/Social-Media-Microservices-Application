@@ -13,7 +13,7 @@ export default function Navbar() {
   }
 
   const handleMyWallClick = (e: React.MouseEvent) => {
-    if (!user?.profileId) {
+    if (!user?.id) {
       e.preventDefault();
       navigate('/profile');
     }
@@ -24,8 +24,8 @@ export default function Navbar() {
       {user ? (
         <>
           <Link className = {styles.navItem} to = "/feed">Feed</Link>
-          {user.profileId ? (
-            <Link className = {styles.navItem} to = {`/wall/${user.profileId}`}>My Wall</Link>
+          {user.id ? (
+            <Link className = {styles.navItem} to = {`/wall/${user.id}`}>My Wall</Link>
           ) : (
             <Link className = {styles.navItem} to = "/profile" onClick={handleMyWallClick}>My Wall</Link>
           )}

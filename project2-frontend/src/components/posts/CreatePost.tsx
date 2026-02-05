@@ -15,15 +15,17 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
   const [avatar, setAvatar] = useState<string>('');
 
   useEffect(() => {
-    if (user?.profileId) {
+    const userId = user?.id || user?.profileId;
+    if (userId) {
       loadProfile();
     }
-  }, [user?.profileId]);
+  }, [user?.id, user?.profileId]);
 
   const loadProfile = async () => {
-    if (!user?.profileId) return;
+    const userId = user?.id || user?.profileId;
+    if (!userId) return;
     try {
-      const profile = await profileApi.getProfile(user.profileId);
+      const profile = await profileApi.getProfile(userId);
       setAvatar(profile.imgurl || profile.profilePic || '');
     } catch (error) {
       console.error('Error loading profile:', error);
@@ -32,17 +34,39 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user?.profileId || !content.trim()) return;
+    
+    console.log('CreatePost - Current user object:', user);
+    
+    if (!user) {
+      alert('Please log in to create a post.');
+      return;
+    }
+
+    const userId = user.id || user.profileId;
+    console.log('CreatePost - Extracted userId:', userId, 'from user.id:', user.id, 'user.profileId:', user.profileId);
+    
+    if (!userId) {
+      console.error('User ID not found. Full user object:', JSON.stringify(user, null, 2));
+      alert('User ID not found. Please log in again.');
+      return;
+    }
+
+    if (!content.trim()) {
+      alert('Please enter some content for your post.');
+      return;
+    }
 
     setLoading(true);
     try {
-      await postApi.createPost(content, imageUrl || null, user.profileId);
+      console.log('Creating post with:', { content, imageUrl, userId });
+      await postApi.createPost(content, imageUrl || null, userId);
       setContent('');
       setImageUrl('');
       onPostCreated();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating post:', error);
-      alert('Failed to create post. Please try again.');
+      const errorMessage = error?.response?.data?.message || error?.message || 'Failed to create post. Please try again.';
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }

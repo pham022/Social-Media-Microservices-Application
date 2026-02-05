@@ -19,7 +19,7 @@ export default function MyWallPage({ userId, onViewUserWall }: MyWallPageProps) 
   const [followingCount, setFollowingCount] = useState(0);
   const [isFollowing, setIsFollowing] = useState(false);
   const [profile, setProfile] = useState<any>(null);
-  const isOwnWall = user?.profileId === userId;
+  const isOwnWall = user?.id === userId;
 
   useEffect(() => {
     loadData();
@@ -39,7 +39,7 @@ export default function MyWallPage({ userId, onViewUserWall }: MyWallPageProps) 
       setFollowingCount(counts.following);
       setProfile(profileData);
 
-      if (!isOwnWall && user?.profileId) {
+      if (!isOwnWall && user?.id) {
         const token = localStorage.getItem('authToken') || '';
         const following = await followApi.isFollowing(userId, token);
         setIsFollowing(following);
@@ -52,7 +52,7 @@ export default function MyWallPage({ userId, onViewUserWall }: MyWallPageProps) 
   };
 
   const handleFollow = async () => {
-    if (!user?.profileId) return;
+    if (!user?.id) return;
     
     try {
       const token = localStorage.getItem('authToken') || '';

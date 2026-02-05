@@ -20,7 +20,7 @@ function App() {
           <header className="appHeader">
             <h1 className="appTitle">Twatter</h1>
             <p className="appSubtitle">
-              Join the conversation. Share your thoughts. Connect with friends. Dont be a Twat.
+              Join the conversation. Share your thoughts. Connect with friends. Dont be a <span className="twatHighlight">Twat</span>.
             </p>
           </header>
           <MainLayout>
