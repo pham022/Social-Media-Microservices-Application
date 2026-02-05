@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CurrentUserValidationResponse {
-    private boolean valid;
-    private Long userId;
-    private String email;
+public class ProfileCreationRequest {
     private String username;
+    private String password;
+    private String firstName;
+    private String lastName;
+    private String bio;
 }
