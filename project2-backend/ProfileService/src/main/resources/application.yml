@@ -22,7 +22,7 @@ spring:
         format_sql: true # see SQL statements printed/formatted in our terminal
   cloud:
     consul:
-      enabled: true # This takes a bit of set up, will do this later
+      enabled: false # This takes a bit of set up, will do this later
     config:
       enabled: false
 
