@@ -15,11 +15,12 @@ const UploadIcon = styled(MuiUpload)``;
 const DeleteIcon = styled(MuiDelete)``;
 
 export default function UserProfile() {
+  const {user} = useAuth();
   const [account, setAccount] = useState<Profile>(
     {       
-      username: "",
+      username: user?.username || "",
       email: "",
-      password: "",
+      password: user?.password || "",
       firstName: "",
       lastName: "",
       bio: "",
@@ -29,7 +30,7 @@ export default function UserProfile() {
     const navigate = useNavigate();
     // receive context:
     const ctx = useContext(AuthContext);
-    const {user} = useAuth();
+    
     let id = user?.id || user?.profileId;
     const [followers, setFollowers] = useState<Profiles>([]);
     const [showCreateForm, setShowCreateForm] = useState(false);
