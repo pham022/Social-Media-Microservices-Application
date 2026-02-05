@@ -1,14 +1,14 @@
 import {createContext } from 'react';
 
 export interface Profile {
-  profileId?: number,
+  id?: number,
   username: string,
   email: string
   password: string,
   firstName?: string,
   lastName?: string,
   bio?: string,
-  profilePic?: string,
+  imgurl?: string,
   verification?: boolean,
   following?: Profiles
 }
