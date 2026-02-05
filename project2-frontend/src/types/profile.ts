@@ -2,6 +2,7 @@ import {createContext } from 'react';
 
 export interface Profile {
   id?: number,
+  profileId?: number,
   username: string,
   email: string
   password: string,
@@ -9,6 +10,7 @@ export interface Profile {
   lastName?: string,
   bio?: string,
   imgurl?: string,
+  profilePic?: string,
   verification?: boolean,
   following?: Profiles
 }
