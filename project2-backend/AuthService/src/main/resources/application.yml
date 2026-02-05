@@ -1,14 +1,5 @@
 server:
-<<<<<<< HEAD
-<<<<<<< HEAD
   port: 8081
-=======
-  port: 8080
->>>>>>> 37f76713933f2d99cc9de867b071f1e76270d34e
-=======
-  port: 8080
->>>>>>> 37f76713933f2d99cc9de867b071f1e76270d34e
-
 spring:
   application:
     name: AuthService
@@ -29,15 +20,7 @@ spring:
         format_sql: true
   cloud:
     consul:
-<<<<<<< HEAD
-<<<<<<< HEAD
       enabled: true
-=======
-      enabled: false
->>>>>>> 37f76713933f2d99cc9de867b071f1e76270d34e
-=======
-      enabled: false
->>>>>>> 37f76713933f2d99cc9de867b071f1e76270d34e
     config:
       enabled: false
 

@@ -10,12 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-<<<<<<< HEAD
-@RequestMapping("/api/reactions")
-=======
 @RequestMapping("/reactions")
->>>>>>> 37f76713933f2d99cc9de867b071f1e76270d34e
-@RestController
 public class ReactionController {
 
     @Autowired

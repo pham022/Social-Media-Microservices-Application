@@ -1,5 +1,7 @@
 server:
   port: 8084
+  servlet:
+    context-path: /comreact-service
 spring:
   application:
     name: ComReactService

@@ -1,7 +1,7 @@
 package org.revature.comreact.services;
 
+import org.modelmapper.ModelMapper;
 import org.revature.comreact.entities.Reaction;
-import org.revature.comreact.enums.ReactionType;
 import org.revature.comreact.repositories.ReactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +14,9 @@ public class ReactionService {
 
     @Autowired
     private ReactionRepository reactionRepository;
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Transactional
     public Reaction create(Reaction reaction) {
