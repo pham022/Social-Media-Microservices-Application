@@ -1,35 +1,45 @@
 .wallPage {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.header {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 32px;
-  padding-bottom: 24px;
-  border-bottom: 2px solid #e5e7eb;
-}
-
-.profileInfo {
-  display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 20px;
 }
 
+.profileSection {
+  width: 100%;
+}
+
+.profileCard {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+  border: 1px solid #e0e7ff;
+}
+
+.profileHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
 .avatar {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  background: #e5e7eb;
+  background: #dbeafe;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
+  border: 3px solid #bfdbfe;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .avatarPlaceholder {
@@ -38,63 +48,83 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 700;
-  color: #64748b;
+  color: #1e40af;
 }
 
-.userInfo {
+.profileInfo {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
 .username {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: #0f172a;
+  color: #1e40af;
   margin: 0;
+}
+
+.fullName {
+  font-size: 1.1rem;
+  color: #64748b;
+  margin: 0;
+  font-weight: 500;
+}
+
+.bio {
+  font-size: 1rem;
+  color: #475569;
+  margin: 0;
+  line-height: 1.6;
 }
 
 .stats {
   display: flex;
-  gap: 24px;
+  gap: 32px;
+  margin-top: 8px;
 }
 
 .stat {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #64748b;
 }
 
 .stat strong {
-  color: #0f172a;
+  color: #1e40af;
   font-weight: 700;
+  margin-right: 4px;
 }
 
 .followButton {
-  padding: 12px 24px;
-  background: #0f172a;
+  padding: 12px 32px;
+  background: #3b82f6;
   color: #ffffff;
   border: none;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
+  font-size: 1rem;
+  align-self: flex-start;
+  margin-top: 8px;
 }
 
 .followButton:hover {
-  background: #111827;
+  background: #2563eb;
 }
 
 .postsSection {
-  margin-top: 24px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.postsTitle {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin-bottom: 20px;
+.createPostWrapper {
+  width: 100%;
 }
 
 .postsList {
@@ -104,8 +134,12 @@
 }
 
 .emptyState {
-  text-align: center;
+  background: #ffffff;
+  border-radius: 12px;
   padding: 60px 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+  border: 1px solid #e0e7ff;
 }
 
 .emptyStateText {

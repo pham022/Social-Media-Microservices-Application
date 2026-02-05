@@ -1,0 +1,27 @@
+.mainLayout {
+  display: grid;
+  grid-template-columns: 250px 1fr 280px;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: calc(100vh - 200px);
+}
+
+.mainContent {
+  min-width: 0; /* Prevents grid overflow */
+  overflow-y: auto;
+}
+
+@media (max-width: 1200px) {
+  .mainLayout {
+    grid-template-columns: 200px 1fr 240px;
+  }
+}
+
+@media (max-width: 968px) {
+  .mainLayout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
