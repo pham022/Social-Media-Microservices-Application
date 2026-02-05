@@ -1,47 +1,20 @@
 .newsFeed {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.searchBar {
   background: #ffffff;
   border-radius: 12px;
-  padding: 12px 16px;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
-  border: 1px solid #e0e7ff;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.searchInput {
-  width: 100%;
-  padding: 10px 16px;
-  border: 1px solid #e0e7ff;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  outline: none;
-  background: #f8fafc;
-  transition: all 0.2s;
-}
-
-.searchInput:focus {
-  border-color: #3b82f6;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.searchInput::placeholder {
-  color: #94a3b8;
-}
-
-.createPostSection {
-  width: 100%;
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 24px;
 }
 
 .postsList {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
 .loadMore {
@@ -51,7 +24,7 @@
 
 .loadMoreButton {
   padding: 12px 24px;
-  background: #3b82f6;
+  background: #0f172a;
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -61,7 +34,7 @@
 }
 
 .loadMoreButton:hover:not(:disabled) {
-  background: #2563eb;
+  background: #111827;
 }
 
 .loadMoreButton:disabled {
@@ -74,14 +47,13 @@
   border-radius: 12px;
   padding: 60px 40px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
-  border: 1px solid #e0e7ff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .emptyStateTitle {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #1e40af;
+  color: #0f172a;
   margin-bottom: 12px;
 }
 

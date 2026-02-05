@@ -3,15 +3,13 @@
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
-  border: 1px solid #e0e7ff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: box-shadow 0.2s;
 }
 
 .post:hover {
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .postHeader {
@@ -25,31 +23,25 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #dbeafe;
+  background: #e5e7eb;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  color: #1e40af;
+  color: #64748b;
   flex-shrink: 0;
   cursor: pointer;
-  transition: background 0.2s;
-}
-
-.postAvatar:hover {
-  background: #bfdbfe;
 }
 
 .postUsername {
   font-weight: 700;
-  color: #1e40af;
+  color: #0f172a;
   cursor: pointer;
   font-size: 1rem;
-  transition: color 0.2s;
 }
 
 .postUsername:hover {
-  color: #3b82f6;
+  color: #475569;
 }
 
 .postTime {
@@ -79,7 +71,7 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 16px;
-  border-top: 1px solid #e0e7ff;
+  border-top: 1px solid #e5e7eb;
 }
 
 .reactions {
@@ -94,22 +86,21 @@
   gap: 6px;
   padding: 8px 12px;
   border: none;
-  background: #eff6ff;
+  background: #f8fafc;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s;
   font-weight: 600;
-  color: #1e40af;
+  color: #334155;
 }
 
 .reactionButton:hover {
-  background: #dbeafe;
-  transform: translateY(-1px);
+  background: #e2e8f0;
 }
 
 .reactionButton.active.like {
-  background: #3b82f6;
-  color: #ffffff;
+  background: #dbeafe;
+  color: #1e40af;
 }
 
 .reactionButton.active.dislike {
@@ -119,24 +110,23 @@
 
 .commentCount {
   font-weight: 600;
-  color: #3b82f6;
+  color: #64748b;
   cursor: pointer;
-  transition: color 0.2s;
 }
 
 .commentCount:hover {
-  color: #1e40af;
+  color: #475569;
 }
 
 .commentsSection {
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 1px solid #e0e7ff;
+  border-top: 1px solid #e5e7eb;
 }
 
 .commentsHeader {
   font-weight: 700;
-  color: #1e40af;
+  color: #0f172a;
   margin-bottom: 16px;
 }
 
@@ -156,13 +146,13 @@
 }
 
 .commentInput:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #64748b;
+  box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.1);
 }
 
 .commentSubmit {
   padding: 10px 20px;
-  background: #3b82f6;
+  background: #0f172a;
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -172,7 +162,7 @@
 }
 
 .commentSubmit:hover {
-  background: #2563eb;
+  background: #111827;
 }
 
 .commentsList {
@@ -192,20 +182,14 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #dbeafe;
+  background: #e5e7eb;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  color: #1e40af;
+  color: #64748b;
   flex-shrink: 0;
   font-size: 0.85rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.commentAvatar:hover {
-  background: #bfdbfe;
 }
 
 .commentContent {
@@ -221,14 +205,8 @@
 
 .commentUsername {
   font-weight: 600;
-  color: #1e40af;
+  color: #0f172a;
   font-size: 0.9rem;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.commentUsername:hover {
-  color: #3b82f6;
 }
 
 .commentTime {
@@ -254,22 +232,22 @@
   gap: 4px;
   padding: 4px 8px;
   border: none;
-  background: #eff6ff;
+  background: #f8fafc;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #1e40af;
+  color: #334155;
 }
 
 .commentReactionButton:hover {
-  background: #dbeafe;
+  background: #e2e8f0;
 }
 
 .commentReactionButton.active.like {
-  background: #3b82f6;
-  color: #ffffff;
+  background: #dbeafe;
+  color: #1e40af;
 }
 
 .commentReactionButton.active.dislike {
@@ -280,16 +258,15 @@
 .loadMoreComments {
   text-align: center;
   padding: 12px;
-  color: #3b82f6;
+  color: #64748b;
   cursor: pointer;
   font-weight: 600;
   border-radius: 8px;
-  transition: all 0.2s;
+  transition: background 0.2s;
 }
 
 .loadMoreComments:hover {
-  background: #eff6ff;
-  color: #1e40af;
+  background: #f1f5f9;
 }
 
 .loading {

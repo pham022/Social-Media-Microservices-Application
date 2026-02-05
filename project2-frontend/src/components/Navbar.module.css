@@ -3,8 +3,11 @@
   display: flex;
   align-items: center;
   gap: 12px;
+ 
+ 
   width: min(1100px, 100%);
   margin: 14px auto 24px auto;
+ 
   padding: 0 16px;
   border: 1px solid #e5e7eb;
   border-radius: 14px;
@@ -32,11 +35,4 @@
   background: #f3f4f6;
   border-color: #e5e7eb;
   transform: translateY(-1px);
-}
-
-.welcomeText {
-  margin-left: auto;
-  font-size: 14px;
-  font-weight: 600;
-  color: #111827;
 }
