@@ -120,8 +120,16 @@ export default function NewsFeed({ onViewUserWall }: NewsFeedProps) {
 
   return (
     <div className={styles.newsFeed}>
-      <h2 className={styles.title}>News Feed</h2>
-      <CreatePost onPostCreated={handleUpdatePost} />
+      <div className={styles.searchBar}>
+        <input
+          type="text"
+          placeholder="Search something here..."
+          className={styles.searchInput}
+        />
+      </div>
+      <div className={styles.createPostSection}>
+        <CreatePost onPostCreated={handleUpdatePost} />
+      </div>
       <div className={styles.postsList}>
         {posts.map((post) => (
           <PostComponent

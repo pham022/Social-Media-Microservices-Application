@@ -18,7 +18,13 @@ export default function AuthProvider({ children } : {children: React.ReactNode }
     try {
       let user = {username: username, password: password};
       let response = await axios.post(`${API_URLS.auth}/auth/login`, user);
-      setUser(response.data);
+      const userData = response.data;
+      // Normalize the response - handle both 'id' and 'profileId' fields
+      if (userData.id && !userData.profileId) {
+        userData.profileId = userData.id;
+      }
+      setUser(userData);
+      navigate('/feed');
       navigate('/profile');
     } catch (error:any) {
       console.error(error)

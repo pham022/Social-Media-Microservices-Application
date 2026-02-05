@@ -12,12 +12,34 @@ export default function Navbar() {
     navigate('/login');
   }
 
+  const handleMyWallClick = (e: React.MouseEvent) => {
+    if (!user?.profileId) {
+      e.preventDefault();
+      navigate('/profile');
+    }
+  };
+
   return (
     <nav className = {styles.navBar}>
-      {user ? <button onClick = {logoutHandler} className = {styles.navItem}>Logout</button>: 
-      <Link className = {styles.navItem} to = "/login">Login</Link>}
-      <Link className = {styles.navItem} to = "/register">Register</Link>
-      {user ? <span>Welcome, {user.username}!</span> : <span>Welcome, Guest!</span>}
+      {user ? (
+        <>
+          <Link className = {styles.navItem} to = "/feed">Feed</Link>
+          {user.profileId ? (
+            <Link className = {styles.navItem} to = {`/wall/${user.profileId}`}>My Wall</Link>
+          ) : (
+            <Link className = {styles.navItem} to = "/profile" onClick={handleMyWallClick}>My Wall</Link>
+          )}
+          <Link className = {styles.navItem} to = "/profile">Profile</Link>
+          <button onClick = {logoutHandler} className = {styles.navItem}>Logout</button>
+          <span className={styles.welcomeText}>Welcome, {user.username || 'User'}!</span>
+        </>
+      ) : (
+        <>
+          <Link className = {styles.navItem} to = "/login">Login</Link>
+          <Link className = {styles.navItem} to = "/register">Register</Link>
+          <span className={styles.welcomeText}>Welcome, Guest!</span>
+        </>
+      )}
     </nav>
   )
 }
