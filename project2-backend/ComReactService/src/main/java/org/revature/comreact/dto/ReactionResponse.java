@@ -13,13 +13,13 @@ import org.revature.comreact.enums.ReactionType;
 public class ReactionResponse {
 
     private long id;
-    private long userId;
+    private String username;
     private long postId;
     @Enumerated(EnumType.STRING)
     private ReactionType reaction;
 
-    public ReactionResponse(long userId, long postId, ReactionType reaction) {
-        this.userId = userId;
+    public ReactionResponse(String username, long postId, ReactionType reaction) {
+        this.username = username;
         this.postId = postId;
         this.reaction = reaction;
     }

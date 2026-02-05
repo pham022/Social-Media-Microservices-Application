@@ -4,7 +4,7 @@ import styles from '../profile/Profile.module.css';
 import { useAuth } from '../../hooks/useAuth';
 
 export default function Register() {
-  const [userFormData, setUserFormData] = useState<Profile>({ username: '', password: ''});
+  const [userFormData, setUserFormData] = useState<Profile>({email: '', username: '', password: ''});
 
   // retrieve login function from our custom hook:
   const {register} = useAuth();
@@ -19,7 +19,7 @@ export default function Register() {
 
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (userFormData.password) register(userFormData.username, userFormData.password);
+    if (userFormData.password) register(userFormData.email, userFormData.username, userFormData.password);
   }
 
 
@@ -27,6 +27,19 @@ export default function Register() {
   return (
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={onSubmitHandler}>
+
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor="username">
+            Email
+          </label>
+          <input
+            id="email"
+            className={styles.input}
+            name="email"
+            value={userFormData.email}
+            onChange={onChangeHandler}
+          />
+        </div>
 
         <div className={styles.field}>
           <label className={styles.label} htmlFor="username">

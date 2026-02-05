@@ -2,46 +2,55 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AuthContext, Profiles, Profile } from '../../types/profile';
 import axios from 'axios';
-import base_url from '../../util/url';
+import API_URLS from '../../util/url';
 import styles from "./Profile.module.css";
 import { useAuth } from '../../hooks/useAuth';
+import { Avatar, Button } from '@mui/material';
+import { Delete as MuiDelete, CloudUpload as MuiUpload } from '@mui/icons-material';
+import styled from "styled-components";
 
 export default function UserProfile() {
-  const [account, setAccount] = useState<Profile>(
-    {       
-      username: "",
-      password: "",
-      firstName: "",
-      lastName: "",
-      bio: "",
-      profilePic: "" 
-    });
+
+    const UploadIcon = styled(MuiUpload)``;
+    const DeleteIcon = styled(MuiDelete)``;
     // useNavigate() returns a function that lets us programmatically redirect:
-    const navigate = useNavigate();
     // receive context:
     const ctx = useContext(AuthContext);
     const {user} = useAuth();
-    let id = user?.profileId;
+    console.log("Auth context user:", ctx);
+    if(user){
+      console.log("Logged in user:", user);
+    }
+    
+      const [account, setAccount] = useState<Profile>(
+    {
+      username: user?.username || "",
+      email: user?.email || "",
+      password: user?.password || "",
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || ""  ,
+      bio: user?.bio || "",
+      imgurl: user?.imgurl || ""
+    });
     const [followers, setFollowers] = useState<Profiles>([]);
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [formData, setFormData] = useState({
-      id: id,
-      username: user?.username,
-      password: user?.password,
-      firstName: "",
-      lastName: "",
-      bio: "",
-      imgurl: ""
+      username: user?.username || "",
+      password: user?.password || "",
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || ""  ,
+      bio: user?.bio || "",
+      imgurl: user?.imgurl || ""
     });
 
   useEffect(() => {
 
-    if(id){
-      axios.get(`${base_url}/profiles/${id}`)
-        .then(response => { console.log(response.data);setAccount(response.data)})
+    if(user?.id){
+      axios.get(`${API_URLS.profile}/profiles/${user?.id}`)
+        .then(response => { setFormData({...formData, username:user?.username, password: user?.password});setAccount(response.data)})
         .catch(error => console.error(error))
     }
-  }, [id]);
+  }, [user?.id]);
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!account) return;
@@ -49,12 +58,33 @@ export default function UserProfile() {
       ...formData,
       [event.target.name]: event.target.value
     })
+    
+    const newImage = event.target?.files?.[0];
+
+    if (newImage) {
+      console.log(URL.createObjectURL(newImage));
+      setFormData({...formData, imgurl: URL.createObjectURL(newImage)});
+      setAccount({...account, imgurl: URL.createObjectURL(newImage)});
+
+    }
+    console.log("Form data updated:", formData);
   }
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      console.log("Handle click called");
+      console.log("Current imgurl:", account.imgurl);
+    if (account.imgurl) {
+      event.preventDefault();
+      setFormData({ ...formData, imgurl: "" });
+      setAccount({...account, imgurl: ""});
+      console.log("Image deleted");
+    }
+  };
 
     const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!account) return;
-    axios.put(`${base_url}/profiles`, formData)
+    console.log("Submitting form data:", formData);
+    axios.put(`${API_URLS.profile}/profiles`, formData)
       .then(response => {
         console.log(response.data);
         setAccount(response.data);
@@ -66,6 +96,32 @@ export default function UserProfile() {
   return account ? (
     <div className={styles.wrapper}>
             <h2 className={styles.title}>My Profile</h2>
+            <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', scale: '3', gap: '20px', marginBottom: '50px', marginTop: '45px'}}>
+                <Avatar variant="circular" src={account.imgurl} />
+            </div>
+             {showCreateForm && (
+              <>
+               <input
+              accept="image/*"
+              hidden
+              id="avatar-image-upload"
+              type="file"
+              onChange={onChangeHandler}
+            />
+            <label htmlFor="avatar-image-upload">
+              <Button
+                variant="contained"
+                color="primary"
+                component="span"
+                onClick={handleClick}
+              >
+                {account.imgurl ? <DeleteIcon /> : <UploadIcon/>}
+                {account.imgurl ? "Delete" : "Upload"}
+              </Button>
+            </label>
+              </>
+             )}
+           
             <div className={styles.field}>
             <div style={{ display: "flex", gap: 10, marginBottom: 12 }} onChange={onChangeHandler}>
               Name: {account.firstName} {account.lastName}

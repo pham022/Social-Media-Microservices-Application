@@ -1,6 +1,7 @@
 package org.revature.comreact.services;
 
 import org.revature.comreact.dto.CommentResponse;
+import org.revature.comreact.dto.ProfileResponse;
 import org.revature.comreact.entities.Comment;
 import org.revature.comreact.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +17,22 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     public CommentResponse insert(CommentResponse commentResponse) {
-        Comment comment = new Comment(commentResponse.getUserId(), commentResponse.getPostId(), commentResponse.getContent());
+        Comment comment = new Comment(commentResponse.getUsername(), commentResponse.getPostId(), commentResponse.getContent());
         comment = commentRepository.save(comment);
-        commentResponse = new CommentResponse(comment.getId(), comment.getUserId(), comment.getPostId(), comment.getContent(), comment.getTime());
+        commentResponse = new CommentResponse(comment.getId(), comment.getUsername(), comment.getPostId(), comment.getContent(), comment.getTime());
         return commentResponse;
     }
 
     public CommentResponse getById(Long id) {
         Comment comment = commentRepository.getById(id);
-        return new CommentResponse(comment.getId(), comment.getUserId(), comment.getPostId(), comment.getContent(), comment.getTime());
+        return new CommentResponse(comment.getId(), comment.getUsername(), comment.getPostId(), comment.getContent(), comment.getTime());
     }
 
     public List<CommentResponse> getAll() {
         List<Comment> comments = commentRepository.findAll();
         List<CommentResponse> commentResponses = new ArrayList<>();
         for(Comment comment : comments) {
-            commentResponses.add(new CommentResponse(comment.getId(), comment.getUserId(), comment.getPostId(), comment.getContent(), comment.getTime()));
+            commentResponses.add(new CommentResponse(comment.getId(), comment.getUsername(), comment.getPostId(), comment.getContent(), comment.getTime()));
         }
         return commentResponses;
     }
@@ -40,7 +41,7 @@ public class CommentService {
         List<Comment> comments = commentRepository.getByPostId(id);
         List<CommentResponse> commentResponses = new ArrayList<>();
         for(Comment comment : comments) {
-            commentResponses.add(new CommentResponse(comment.getId(), comment.getUserId(), comment.getPostId(), comment.getContent(), comment.getTime()));
+            commentResponses.add(new CommentResponse(comment.getId(), comment.getUsername(), comment.getPostId(), comment.getContent(), comment.getTime()));
         }
         return commentResponses;
     }

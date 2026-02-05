@@ -18,31 +18,31 @@ public class ReactionService {
 
     @Transactional
     public ReactionResponse create(ReactionResponse reactionResponse) {
-        Reaction old = reactionRepository.getByUserIdAndPostId(reactionResponse.getUserId(), reactionResponse.getPostId());
+        Reaction old = reactionRepository.getByUsernameAndPostId(reactionResponse.getUsername(), reactionResponse.getPostId());
         Reaction reaction;
         if(old == null) {
-            reaction = new Reaction(reactionResponse.getUserId(), reactionResponse.getPostId(), reactionResponse.getReaction());
+            reaction = new Reaction(reactionResponse.getUsername(), reactionResponse.getPostId(), reactionResponse.getReaction());
             reaction = reactionRepository.save(reaction);
-            return new ReactionResponse(reaction.getId(), reaction.getUserId(), reaction.getPostId(), reaction.getReaction());
+            return new ReactionResponse(reaction.getId(), reaction.getUsername(), reaction.getPostId(), reaction.getReaction());
         } else if(old.getReaction().equals(reactionResponse.getReaction())) {
             return null;
         } else {
             old.setReaction(reactionResponse.getReaction());
             reaction = reactionRepository.save(old);
-            return new ReactionResponse(reaction.getId(), reaction.getUserId(), reaction.getPostId(), reaction.getReaction());
+            return new ReactionResponse(reaction.getId(), reaction.getUsername(), reaction.getPostId(), reaction.getReaction());
         }
     }
 
     public ReactionResponse getById(Long id) {
         Reaction reaction = reactionRepository.getById(id);
-        return new ReactionResponse(reaction.getId(), reaction.getUserId(), reaction.getPostId(), reaction.getReaction());
+        return new ReactionResponse(reaction.getId(), reaction.getUsername(), reaction.getPostId(), reaction.getReaction());
     }
 
     public List<ReactionResponse> getAll() {
         List<Reaction> reactions = reactionRepository.findAll();
         List<ReactionResponse> reactionResponses = new ArrayList<>();
         for(Reaction reaction : reactions) {
-            reactionResponses.add(new ReactionResponse(reaction.getId(), reaction.getUserId(), reaction.getPostId(), reaction.getReaction()));
+            reactionResponses.add(new ReactionResponse(reaction.getId(), reaction.getUsername(), reaction.getPostId(), reaction.getReaction()));
         }
         return reactionResponses;
     }
@@ -51,7 +51,7 @@ public class ReactionService {
         List<Reaction> reactions = reactionRepository.getByPostId(id);
         List<ReactionResponse> reactionResponses = new ArrayList<>();
         for(Reaction reaction : reactions) {
-            reactionResponses.add(new ReactionResponse(reaction.getId(), reaction.getUserId(), reaction.getPostId(), reaction.getReaction()));
+            reactionResponses.add(new ReactionResponse(reaction.getId(), reaction.getUsername(), reaction.getPostId(), reaction.getReaction()));
         }
         return reactionResponses;
     }

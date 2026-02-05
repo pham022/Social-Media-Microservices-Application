@@ -3,7 +3,6 @@ package com.revature.controller;
 import com.revature.dto.AuthResponse;
 import com.revature.dto.LoginRequest;
 import com.revature.dto.RegisterRequest;
-import com.revature.dto.CurrentUserValidationResponse;
 import com.revature.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,11 +36,5 @@ public class AuthController {
     public ResponseEntity<Boolean> validateToken(@RequestParam String token) {
         boolean isValid = authService.validateToken(token);
         return ResponseEntity.ok(isValid);
-    }
-
-    @GetMapping("/user-info")
-    public ResponseEntity<CurrentUserValidationResponse> getUserInfo(@RequestParam String token) {
-        CurrentUserValidationResponse userInfo = authService.getUserInfoFromToken(token);
-        return ResponseEntity.ok(userInfo);
     }
 }

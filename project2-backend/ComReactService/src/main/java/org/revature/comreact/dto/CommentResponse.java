@@ -13,8 +13,13 @@ import java.time.Instant;
 public class CommentResponse {
 
     private Long id;
-    private Long userId;
+    private String username;
     private Long postId;
     private String content;
     private Instant time;
+
+    public CommentResponse(String username, Long postId, String content) {
+        this.postId = postId;
+        this.content = content;
+    }
 }

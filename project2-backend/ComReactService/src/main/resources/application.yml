@@ -17,3 +17,9 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+profile-service:
+  url: http://localhost:8082
+
+post-service:
+  url: http://localhost:8083

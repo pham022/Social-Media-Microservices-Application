@@ -17,7 +17,7 @@ public class Comment {
 
 //    @ManyToOne
 //    @JoinColumn(name = "user_id_fk")
-    private Long userId;
+    private String username;
 
 //    @ManyToOne
 //    @JoinColumn(name = "post_id_fk")
@@ -27,8 +27,8 @@ public class Comment {
 
     private Instant time;
 
-    public Comment(Long userId, Long postId, String content) {
-        this.userId = userId;
+    public Comment(String username, Long postId, String content) {
+        this.username = username;
         this.postId = postId;
         this.content = content;
         this.time = Instant.now();
