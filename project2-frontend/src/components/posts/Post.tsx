@@ -80,10 +80,10 @@ export default function Post({ post, onViewUserWall, onUpdatePost }: PostProps) 
   };
 
   const handleReaction = async (reactionType: 'LIKE' | 'DISLIKE') => {
-    if (!user?.profileId) return;
+    if (!user?.id) return;
 
     try {
-      const existingReaction = reactions.find(r => r.userId === user.profileId);
+      const existingReaction = reactions.find(r => r.userId === user.id);
       
       if (existingReaction) {
         if (existingReaction.reaction === reactionType) {
@@ -91,11 +91,11 @@ export default function Post({ post, onViewUserWall, onUpdatePost }: PostProps) 
           await reactionApi.deleteReaction(existingReaction.id);
         } else {
           // Update reaction
-          await reactionApi.createReaction(user.profileId, post.id, reactionType);
+          await reactionApi.createReaction(user.id, post.id, reactionType);
         }
       } else {
         // Create new reaction
-        await reactionApi.createReaction(user.profileId, post.id, reactionType);
+        await reactionApi.createReaction(user.id, post.id, reactionType);
       }
       
       await loadReactions();
@@ -107,10 +107,10 @@ export default function Post({ post, onViewUserWall, onUpdatePost }: PostProps) 
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.stopPropagation();
-    if (!user?.profileId || !commentText.trim()) return;
+    if (!user?.id || !commentText.trim()) return;
 
     try {
-      await commentApi.createComment(user.profileId, post.id, commentText);
+      await commentApi.createComment(user.id, post.id, commentText);
       setCommentText('');
       setComments([]);
       setCommentPage(0);
@@ -137,7 +137,7 @@ export default function Post({ post, onViewUserWall, onUpdatePost }: PostProps) 
 
   const likes = reactions.filter(r => r.reaction === 'LIKE').length;
   const dislikes = reactions.filter(r => r.reaction === 'DISLIKE').length;
-  const userReaction = reactions.find(r => r.userId === user?.profileId)?.reaction;
+  const userReaction = reactions.find(r => r.userId === user?.id)?.reaction;
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);

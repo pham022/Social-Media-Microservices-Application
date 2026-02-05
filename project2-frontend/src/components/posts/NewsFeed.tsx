@@ -31,7 +31,7 @@ export default function NewsFeed({ onViewUserWall }: NewsFeedProps) {
   }, [followingIds, page]);
 
   const loadFollowing = async () => {
-    if (!user?.profileId) return;
+    if (!user?.id) return;
     
     try {
       // Get auth token from localStorage or context
@@ -45,7 +45,7 @@ export default function NewsFeed({ onViewUserWall }: NewsFeedProps) {
   };
 
   const loadPosts = async () => {
-    if (loading || !user?.profileId) return;
+    if (loading || !user?.id) return;
 
     setLoading(true);
     try {

@@ -1,7 +1,7 @@
 import {createContext } from 'react';
 
 export interface Profile {
-  profileId?: number,
+  id?: number,
   username: string,
   password: string,
   firstName?: string,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AuthContext, AuthContextValue, Profile } from '../../types/profile';
 import axios from 'axios';
 import API_URLS from '../../util/url';
@@ -9,7 +9,19 @@ import { useNavigate } from 'react-router-dom';
 // So, we have to pass children as parameters so we can pass them along to the AuthContext below
 export default function AuthProvider({ children } : {children: React.ReactNode }) {
   // keep track of the logged in user:
-  const [user, setUser] = useState<Profile | null>(null);
+  const [user, setUser] = useState<Profile | null>(() => {
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  // Sync user state with localStorage whenever it changes
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('user');
+    }
+  }, [user]);
 
   const navigate = useNavigate();
 

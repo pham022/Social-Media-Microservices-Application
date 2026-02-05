@@ -15,11 +15,11 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user?.profileId || !content.trim()) return;
+    if (!user?.id || !content.trim()) return;
 
     setLoading(true);
     try {
-      await postApi.createPost(content, imageUrl || null, user.profileId);
+      await postApi.createPost(content, imageUrl || null, user.id);
       setContent('');
       setImageUrl('');
       onPostCreated();
