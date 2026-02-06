@@ -1,10 +1,10 @@
-package org.revature.comreact.comreact;
+package org.revature.gatewayservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ComReactServiceApplicationTests {
+class GatewayServiceApplicationTests {
 
     @Test
     void contextLoads() {

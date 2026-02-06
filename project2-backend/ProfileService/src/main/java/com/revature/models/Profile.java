@@ -25,7 +25,7 @@ public class Profile {
 	private Long pid;
 	@Column(name = "username", columnDefinition = "TEXT", nullable = false, unique = true)
 	private String username;
-	@Column(name = "password", columnDefinition = "TEXT", nullable = false, unique = true)
+	@Column(name = "password", columnDefinition = "TEXT", unique = true)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	@Column(name = "first_name", columnDefinition = "TEXT")

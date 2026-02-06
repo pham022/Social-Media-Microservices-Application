@@ -1,31 +1,24 @@
-package org.revature.comreact.entities;
+package org.revature.comreact.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.revature.comreact.enums.ReactionType;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
-@Entity
-public class Reaction {
+public class ReactionResponse {
 
-    @Id
-    @GeneratedValue
     private long id;
-
-//    @ManyToOne
-//    @JoinColumn(name = "user_id_fk")
     private String username;
-
-//    @ManyToOne
-//    @JoinColumn(name = "post_id_fk")
     private long postId;
-
     @Enumerated(EnumType.STRING)
     private ReactionType reaction;
 
-    public Reaction(String username, long postId, ReactionType reaction) {
+    public ReactionResponse(String username, long postId, ReactionType reaction) {
         this.username = username;
         this.postId = postId;
         this.reaction = reaction;
