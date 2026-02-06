@@ -97,16 +97,65 @@ export default function UserProfile() {
     }
   };
 
-    const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!account) return;
-    axios.put(`${API_URLS.profile}/profiles`, formData)
-      .then(response => {
-        console.log(response.data);
-        setAccount(response.data);
-        setShowCreateForm(false);
-      })
-      .catch(error => console.error(error))
+    if (!account || !id) {
+      alert('Profile ID not found. Please refresh the page.');
+      return;
+    }
+    
+    try {
+      // Map frontend formData to backend ProfileDTO structure
+      // Backend expects pid (not id), username, password, firstName, lastName, bio, imgurl
+      const updateData = {
+        pid: id, // Backend expects pid, not id
+        username: formData.username || account.username || user?.username || '',
+        password: formData.password || account.password || '',
+        firstName: formData.firstName || '',
+        lastName: formData.lastName || '',
+        bio: formData.bio || '',
+        imgurl: formData.imgurl || '',
+        verification: account.verification || false
+      };
+
+      console.log('Submitting profile update:', updateData);
+      
+      const response = await axios.put(`${API_URLS.profile}/profiles`, updateData);
+      
+      console.log('Profile update response:', response.data);
+      
+      // Update account state with response data
+      const updatedProfile = response.data;
+      const updatedAccount = {
+        ...account,
+        firstName: updatedProfile.firstName || formData.firstName || '',
+        lastName: updatedProfile.lastName || formData.lastName || '',
+        bio: updatedProfile.bio || formData.bio || '',
+        imgurl: updatedProfile.imgurl || formData.imgurl || ''
+      };
+      
+      setAccount(updatedAccount);
+      
+      // Update formData to reflect changes
+      setFormData({
+        ...formData,
+        firstName: updatedAccount.firstName,
+        lastName: updatedAccount.lastName,
+        bio: updatedAccount.bio,
+        imgurl: updatedAccount.imgurl
+      });
+      
+      setShowCreateForm(false);
+      alert('Profile updated successfully!');
+    } catch (error: any) {
+      console.error('Error updating profile:', error);
+      console.error('Error details:', error?.response?.data);
+      const errorMessage = error?.response?.data?.message || 
+                          error?.response?.statusText || 
+                          error?.message || 
+                          'Failed to update profile. Please try again.';
+      alert(`Error: ${errorMessage}`);
+    }
   }
 
   const handlePostCreated = () => {

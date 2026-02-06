@@ -34,8 +34,14 @@
   transform: translateY(-1px);
 }
 
-.welcomeText {
+.rightSection {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.welcomeText {
   font-size: 14px;
   font-weight: 600;
   color: #111827;

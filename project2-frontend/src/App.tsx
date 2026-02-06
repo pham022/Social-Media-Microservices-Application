@@ -9,6 +9,9 @@ import UserProfile from './components/profile/UserProfile';
 import NewsFeedPage from './components/posts/NewsFeedPage';
 import WallPage from './components/posts/WallPage';
 import MainLayout from './components/layout/MainLayout';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import SinglePostPage from './components/posts/SinglePostPage';
+import FollowersFollowingPage from './components/profile/FollowersFollowingPage';
 import { useAuth } from './hooks/useAuth';
  
 function App() {
@@ -26,11 +29,14 @@ function App() {
           <MainLayout>
             <Routes>
               <Route path="/" element={<HomeRedirect />} />
-              <Route path="/feed" element={<NewsFeedPage />} />
-              <Route path="/wall/:userId" element={<WallPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/feed" element={<ProtectedRoute><NewsFeedPage /></ProtectedRoute>} />
+              <Route path="/wall/:userId" element={<ProtectedRoute><WallPage /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+              <Route path="/post/:postId" element={<ProtectedRoute><SinglePostPage /></ProtectedRoute>} />
+              <Route path="/wall/:userId/followers" element={<ProtectedRoute><FollowersFollowingPage type="followers" /></ProtectedRoute>} />
+              <Route path="/wall/:userId/following" element={<ProtectedRoute><FollowersFollowingPage type="following" /></ProtectedRoute>} />
             </Routes>
           </MainLayout>
         </AuthProvider>

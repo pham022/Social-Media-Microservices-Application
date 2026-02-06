@@ -12,6 +12,7 @@ import java.util.List;
 
 @RequestMapping("/comments")
 @RestController
+@CrossOrigin(origins = "*")
 public class CommentController {
 
     @Autowired
@@ -19,10 +20,25 @@ public class CommentController {
 
     @PostMapping()
     public ResponseEntity<Comment> insert(@RequestBody Comment comment) {
-        comment = this.commentService.insert(comment);
-        System.out.println(comment);
-        if (comment != null) return new ResponseEntity<>(comment, HttpStatus.CREATED);
-        else return new ResponseEntity<>(new Comment(), HttpStatus.BAD_REQUEST);
+        try {
+            // Validate required fields
+            if (comment.getUserId() == null || comment.getPostId() == null || 
+                comment.getContent() == null || comment.getContent().trim().isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            
+            comment = this.commentService.insert(comment);
+            System.out.println("Comment created: " + comment);
+            if (comment != null && comment.getId() != null) {
+                return new ResponseEntity<>(comment, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            System.err.println("Error creating comment: " + e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")

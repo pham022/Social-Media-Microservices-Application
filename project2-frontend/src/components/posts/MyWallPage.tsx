@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Post } from '../../types/post';
-import { postApi, followApi, profileApi } from '../../util/postApi';
+import { postApi, profileApi } from '../../util/postApi';
 import { useAuth } from '../../hooks/useAuth';
+import { useFollow } from '../../hooks/useFollow';
 import PostComponent from './Post';
 import CreatePost from './CreatePost';
 import styles from './MyWallPage.module.css';
@@ -13,61 +15,55 @@ interface MyWallPageProps {
 
 export default function MyWallPage({ userId, onViewUserWall }: MyWallPageProps) {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
-  const [followerCount, setFollowerCount] = useState(0);
-  const [followingCount, setFollowingCount] = useState(0);
-  const [isFollowing, setIsFollowing] = useState(false);
   const [profile, setProfile] = useState<any>(null);
-  const isOwnWall = user?.id === userId;
+  
+  const meUserId = user?.id || user?.profileId;
+  const authToken = localStorage.getItem('authToken') || '';
+  const isOwnWall = (user?.id === userId) || (user?.profileId === userId);
+  
+  // Use the centralized follow hook
+  const { isFollowing, counts, loading: followLoading, follow, unfollow, reload, refreshCounts } = useFollow(
+    userId,
+    authToken,
+    meUserId // Always pass meUserId for proper count calculation
+  );
 
-  useEffect(() => {
-    loadData();
-  }, [userId]);
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
     try {
-      const [postsData, counts, profileData] = await Promise.all([
+      const [postsData, profileData] = await Promise.all([
         postApi.getUserPosts(userId),
-        followApi.getCounts(userId),
         profileApi.getProfile(userId).catch(() => null)
       ]);
 
       setPosts(postsData);
-      setFollowerCount(counts.followers);
-      setFollowingCount(counts.following);
       setProfile(profileData);
-
-      if (!isOwnWall && user?.id) {
-        const token = localStorage.getItem('authToken') || '';
-        const following = await followApi.isFollowing(userId, token);
-        setIsFollowing(following);
-      }
     } catch (error) {
       console.error('Error loading wall page:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
 
-  const handleFollow = async () => {
-    if (!user?.id) return;
-    
-    try {
-      const token = localStorage.getItem('authToken') || '';
-      if (isFollowing) {
-        await followApi.unfollow(userId, token);
-      } else {
-        await followApi.follow(userId, token);
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  // Reload follow state when userId or user changes
+  useEffect(() => {
+    if (userId && authToken) {
+      if (!isOwnWall && meUserId) {
+        // For other users' walls, load follow status and counts
+        reload();
+      } else if (isOwnWall) {
+        // For own wall, just refresh counts (no follow status needed)
+        refreshCounts();
       }
-      setIsFollowing(!isFollowing);
-      const counts = await followApi.getCounts(userId);
-      setFollowerCount(counts.followers);
-    } catch (error) {
-      console.error('Error following/unfollowing:', error);
     }
-  };
+  }, [userId, authToken, meUserId, isOwnWall, reload, refreshCounts]);
 
   const handleUpdatePost = () => {
     loadData();
@@ -108,21 +104,59 @@ export default function MyWallPage({ userId, onViewUserWall }: MyWallPageProps) 
                 <p className={styles.bio}>{profile.bio}</p>
               )}
               <div className={styles.stats}>
-                <span className={styles.stat}>
-                  <strong>{followerCount}</strong> Followers
+                <span 
+                  className={styles.stat}
+                  onClick={() => navigate(`/wall/${userId}/followers`)}
+                  style={{ cursor: 'pointer' }}
+                  title="View followers"
+                >
+                  <strong>{counts.followers}</strong> Followers
                 </span>
-                <span className={styles.stat}>
-                  <strong>{followingCount}</strong> Following
+                <span 
+                  className={styles.stat}
+                  onClick={() => navigate(`/wall/${userId}/following`)}
+                  style={{ cursor: 'pointer' }}
+                  title="View following"
+                >
+                  <strong>{counts.following}</strong> Following
                 </span>
                 <span className={styles.stat}>
                   <strong>{posts.length}</strong> Posts
                 </span>
               </div>
             </div>
-            {!isOwnWall && (
-              <button className={styles.followButton} onClick={handleFollow}>
-                {isFollowing ? 'Unfollow' : 'Follow'}
-              </button>
+            {!isOwnWall && isFollowing !== null && (
+              isFollowing ? (
+                <button 
+                  className={`${styles.followButton} ${styles.following} ${followLoading ? styles.processing : ''}`}
+                  onClick={async () => {
+                    try {
+                      await unfollow();
+                    } catch (error: any) {
+                      alert(error?.message || 'Failed to unfollow user. Please try again.');
+                    }
+                  }}
+                  disabled={followLoading}
+                  title="Click to unfollow"
+                >
+                  {followLoading ? '...' : 'Unfollow'}
+                </button>
+              ) : (
+                <button 
+                  className={`${styles.followButton} ${followLoading ? styles.processing : ''}`}
+                  onClick={async () => {
+                    try {
+                      await follow();
+                    } catch (error: any) {
+                      alert(error?.message || 'Failed to follow user. Please try again.');
+                    }
+                  }}
+                  disabled={followLoading}
+                  title="Click to follow"
+                >
+                  {followLoading ? '...' : 'Follow'}
+                </button>
+              )
             )}
           </div>
         </div>

@@ -106,14 +106,38 @@
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
   font-size: 1rem;
   align-self: flex-start;
   margin-top: 8px;
+  min-width: 120px;
 }
 
-.followButton:hover {
+.followButton:hover:not(:disabled) {
   background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.followButton.following {
+  background: #e0e7ff;
+  color: #3b82f6;
+  border: 1px solid #93c5fd;
+}
+
+.followButton.following:hover:not(:disabled) {
+  background: #fecaca;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+.followButton.processing {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.followButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .postsSection {

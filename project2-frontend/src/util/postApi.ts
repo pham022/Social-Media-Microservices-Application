@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Profile } from '../types/profile';
 
 const POST_SERVICE_URL = 'http://localhost:8083';
 const COMREACT_SERVICE_URL = 'http://localhost:8084';
@@ -43,17 +44,37 @@ export const postApi = {
 // Comment API
 export const commentApi = {
   createComment: async (userId: number, postId: number, content: string) => {
-    const response = await axios.post(`${COMREACT_SERVICE_URL}/comments`, {
-      userId,
-      postId,
-      content
-    });
+    const requestBody = {
+      userId: userId,
+      postId: postId,
+      content: content.trim()
+    };
+    
+    console.log('Sending comment request:', requestBody);
+    console.log('To URL:', `${COMREACT_SERVICE_URL}/comments`);
+    
+    const response = await axios.post(
+      `${COMREACT_SERVICE_URL}/comments`, 
+      requestBody,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
     return response.data;
   },
 
   getCommentsByPost: async (postId: number) => {
     const response = await axios.get(`${COMREACT_SERVICE_URL}/comments/posts/${postId}`);
-    return response.data;
+    // Map backend comment format to frontend format
+    return response.data.map((comment: any) => ({
+      id: comment.id,
+      userId: comment.userId,
+      postId: comment.postId,
+      content: comment.content,
+      time: comment.time || comment.createdAt || new Date().toISOString()
+    }));
   },
 
   deleteComment: async (commentId: number) => {
@@ -145,5 +166,17 @@ export const profileApi = {
       userIds.map(id => profileApi.getProfile(id).catch(() => null))
     );
     return profiles.filter(p => p !== null);
+  },
+
+  searchProfiles: async (query: string): Promise<Profile[]> => {
+    // Remove spaces from query as backend expects no spaces
+    const cleanQuery = query.trim().replace(/\s+/g, '');
+    const response = await axios.get(`${PROFILE_SERVICE_URL}/profiles/search/${cleanQuery}`);
+    // Map backend pid to frontend id and profileId
+    return response.data.map((profile: any): Profile => ({
+      ...profile,
+      id: profile.pid,
+      profileId: profile.pid
+    }));
   }
 };

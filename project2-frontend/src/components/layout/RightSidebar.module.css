@@ -157,6 +157,10 @@
   line-height: 1.6;
 }
 
+.searchSection {
+  width: 100%;
+}
+
 @media (max-width: 968px) {
   .rightSidebar {
     position: relative;

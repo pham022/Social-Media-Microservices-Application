@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './Navbar.module.css'
 import { useAuth } from '../hooks/useAuth'
+import Notifications from './notifications/Notifications'
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -31,7 +32,10 @@ export default function Navbar() {
           )}
           <Link className = {styles.navItem} to = "/profile">Profile</Link>
           <button onClick = {logoutHandler} className = {styles.navItem}>Logout</button>
-          <span className={styles.welcomeText}>Welcome, {user.username || 'User'}!</span>
+          <div className={styles.rightSection}>
+            <Notifications />
+            <span className={styles.welcomeText}>Welcome, {user.username || 'User'}!</span>
+          </div>
         </>
       ) : (
         <>

@@ -12,12 +12,14 @@ import java.util.List;
 
 @RequestMapping("/reactions")
 @RestController
+@CrossOrigin(origins = "*")
 public class ReactionController {
 
     @Autowired
     private ReactionService reactionService;
 
     @PostMapping
+    @CrossOrigin(origins = "*")
     public ResponseEntity<Reaction> insert(@RequestBody Reaction reaction) {
         reaction = this.reactionService.create(reaction);
         if (reaction != null) return new ResponseEntity<>(reaction, HttpStatus.CREATED);
@@ -37,6 +39,7 @@ public class ReactionController {
     }
 
     @GetMapping("/posts/{id}")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<List<Reaction>> getByPostId(@PathVariable("id") Long id) {
         return new ResponseEntity<>(this.reactionService.getByPostId(id), HttpStatus.OK);
     }

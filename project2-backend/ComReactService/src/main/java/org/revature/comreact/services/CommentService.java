@@ -5,6 +5,7 @@ import org.revature.comreact.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -14,6 +15,10 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     public Comment insert(Comment comment) {
+        // Set time if not already set (when deserializing from JSON)
+        if (comment.getTime() == null) {
+            comment.setTime(Instant.now());
+        }
         return commentRepository.save(comment);
     }
 
