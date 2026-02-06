@@ -12,6 +12,7 @@ import java.util.List;
 
 @RequestMapping("/api/reactions")
 @RestController
+@CrossOrigin("*")
 public class ReactionController {
 
     @Autowired
