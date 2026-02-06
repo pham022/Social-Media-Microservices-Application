@@ -7,12 +7,18 @@ export interface Post {
   updatedAt: string;
 }
 
-export interface Comment {
+export interface PostComment {
   id: number;
   userId: number;
   postId: number;
   content: string;
-  time: string;
+  createdAt: string;
+}
+
+export interface CommentRequest {
+  userId: number;
+  postId: number;
+  content: string;
 }
 
 export interface Reaction {

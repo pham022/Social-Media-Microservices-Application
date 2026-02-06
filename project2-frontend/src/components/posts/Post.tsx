@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { PostWithDetails, Comment, Reaction } from '../../types/post';
-import { postApi, commentApi, reactionApi, profileApi } from '../../util/postApi';
+import { PostWithDetails, PostComment, Reaction } from '../../types/post';
+import { commentApi, reactionApi, profileApi } from '../../util/postApi';
 import { useAuth } from '../../hooks/useAuth';
 import styles from './Post.module.css';
 
@@ -13,7 +13,7 @@ interface PostProps {
 export default function Post({ post, onViewUserWall, onUpdatePost }: PostProps) {
   const { user } = useAuth();
   const [expanded, setExpanded] = useState(false);
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<PostComment[]>([]);
   const [reactions, setReactions] = useState<Reaction[]>([]);
   const [loading, setLoading] = useState(false);
   const [commentText, setCommentText] = useState('');
@@ -54,30 +54,30 @@ export default function Post({ post, onViewUserWall, onUpdatePost }: PostProps) 
     }
   };
 
-  const loadComments = async () => {
-    if (loading) return;
-    setLoading(true);
-    try {
-      const allComments = await commentApi.getCommentsByPost(post.id);
-      const startIndex = commentPage * COMMENTS_PER_PAGE;
-      const endIndex = startIndex + COMMENTS_PER_PAGE;
-      const newComments = allComments.slice(startIndex, endIndex);
-      
-      if (newComments.length === 0) {
+const loadComments = async () => {
+  if (loading) return;
+  setLoading(true);
+  try {
+    const allComments = await commentApi.getCommentsByPost(post.id);
+    const startIndex = commentPage * COMMENTS_PER_PAGE;
+    const endIndex = startIndex + COMMENTS_PER_PAGE;
+    const newComments: PostComment[] = allComments.slice(startIndex, endIndex);
+    
+    if (newComments.length === 0) {
+      setHasMoreComments(false);
+    } else {
+      setComments(prev => [...prev, ...newComments]);
+      setCommentPage(prev => prev + 1);
+      if (endIndex >= allComments.length) {
         setHasMoreComments(false);
-      } else {
-        setComments(prev => [...prev, ...newComments]);
-        setCommentPage(prev => prev + 1);
-        if (endIndex >= allComments.length) {
-          setHasMoreComments(false);
-        }
       }
-    } catch (error) {
-      console.error('Error loading comments:', error);
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (error) {
+    console.error('Error loading comments:', error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleReaction = async (reactionType: 'LIKE' | 'DISLIKE') => {
     if (!user?.id) return;
@@ -117,8 +117,9 @@ export default function Post({ post, onViewUserWall, onUpdatePost }: PostProps) 
       setHasMoreComments(true);
       await loadComments();
       if (onUpdatePost) onUpdatePost();
-    } catch (error) {
-      console.error('Error creating comment:', error);
+    } catch (error: any) {
+       console.error('Error creating comment:', error);
+      alert(error.message || 'Failed to post comment. Please try again.');
     }
   };
 
@@ -249,7 +250,7 @@ export default function Post({ post, onViewUserWall, onUpdatePost }: PostProps) 
   );
 }
 
-function CommentItem({ comment, onViewUserWall }: { comment: Comment; onViewUserWall: (userId: number) => void }) {
+function CommentItem({ comment, onViewUserWall }: { comment: PostComment; onViewUserWall: (userId: number) => void }) {
   const { user } = useAuth();
   const [username, setUsername] = useState<string>('');
   const [avatar, setAvatar] = useState<string>('');
@@ -319,7 +320,6 @@ function CommentItem({ comment, onViewUserWall }: { comment: Comment; onViewUser
           >
             {username}
           </span>
-          <span className={styles.commentTime}>{formatTime(comment.time)}</span>
         </div>
         <div className={styles.commentText}>{comment.content}</div>
       </div>

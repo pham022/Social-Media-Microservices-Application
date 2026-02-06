@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { CommentRequest, PostComment } from '../types/post';
 
 const POST_SERVICE_URL = 'http://localhost:8083';
 const COMREACT_SERVICE_URL = 'http://localhost:8084';
@@ -41,25 +42,25 @@ export const postApi = {
 };
 
 // Comment API
-export const commentApi = {
-  createComment: async (userId: number, postId: number, content: string) => {
-    const response = await axios.post(`${COMREACT_SERVICE_URL}/comments`, {
-      userId,
-      postId,
-      content
-    });
-    return response.data;
-  },
+// export const commentApi = {
+//   createComment: async (userId: number, postId: number, content: string) => {
+//     const response = await axios.post(`${COMREACT_SERVICE_URL}/comments`, {
+//       userId,
+//       postId,
+//       content
+//     });
+//     return response.data;
+//   },
 
-  getCommentsByPost: async (postId: number) => {
-    const response = await axios.get(`${COMREACT_SERVICE_URL}/comments/posts/${postId}`);
-    return response.data;
-  },
+//   getCommentsByPost: async (postId: number) => {
+//     const response = await axios.get(`${COMREACT_SERVICE_URL}/comments/posts/${postId}`);
+//     return response.data;
+//   },
 
-  deleteComment: async (commentId: number) => {
-    await axios.delete(`${COMREACT_SERVICE_URL}/comments/${commentId}`);
-  }
-};
+//   deleteComment: async (commentId: number) => {
+//     await axios.delete(`${COMREACT_SERVICE_URL}/comments/${commentId}`);
+//   }
+// };
 
 // Reaction API
 export const reactionApi = {
@@ -146,4 +147,93 @@ export const profileApi = {
     );
     return profiles.filter(p => p !== null);
   }
+};
+
+export const commentApi = {
+  // Get all comments for a specific post
+  async getCommentsByPost(postId: number): Promise<PostComment[]> {
+    try {
+      const response = await fetch(`${COMREACT_SERVICE_URL}/api/comments/posts/${postId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch comments: ${response.status}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      throw error;
+    }
+  },
+
+  async createComment(userId: number, postId: number, content: string): Promise<PostComment> {
+    try {
+      const commentRequest : CommentRequest = {
+        userId,
+        postId,
+        content,
+      };
+
+      const response = await fetch(`${COMREACT_SERVICE_URL}/api/comments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(commentRequest),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Failed to create comment: ${response.status}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating comment:', error);
+      throw error;
+    }
+  },
+
+  async getCommentById(commentId: number): Promise<PostComment> {
+    try {
+      const response = await fetch(`${COMREACT_SERVICE_URL}/api/comments/${commentId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch comment: ${response.status}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching comment:', error);
+      throw error;
+    }
+  },
+
+  async deleteComment(commentId: number): Promise<void> {
+    try {
+      const response = await fetch(`${COMREACT_SERVICE_URL}/api/comments/${commentId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to delete comment: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+      throw error;
+    }
+  },
 };
