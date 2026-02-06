@@ -16,8 +16,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
   // Only show layout for authenticated users on main pages
   const showLayout = user && (
     location.pathname === '/feed' ||
-    location.pathname.startsWith('/wall/') ||
-    location.pathname === '/profile'
+    location.pathname === '/profile' ||
+    location.pathname.startsWith('/profile/')
   );
 
   if (!showLayout) {

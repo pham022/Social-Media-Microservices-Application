@@ -18,11 +18,6 @@ export default function LeftSidebar() {
       label: 'News Feed',
       path: '/feed',
       icon: '📰'
-    },
-    {
-      label: 'My Wall Page',
-      path: user?.id ? `/wall/${user.id}` : '/profile',
-      icon: '🧱'
     }
   ];
 
@@ -38,13 +33,10 @@ export default function LeftSidebar() {
       <nav className={styles.menu}>
         {menuItems.map((item) => {
           let isActive = false;
-          if (item.path === '/profile') {
-            isActive = location.pathname === '/profile';
+          if (item.path.includes('/profile')) {
+            isActive = location.pathname.includes('/profile');
           } else if (item.path === '/feed') {
             isActive = location.pathname === '/feed';
-          } else if (item.path.startsWith('/wall/')) {
-            isActive = location.pathname.startsWith('/wall/') && 
-                       location.pathname === item.path;
           }
           
           return (

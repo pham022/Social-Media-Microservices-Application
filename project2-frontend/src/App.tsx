@@ -6,8 +6,9 @@ import Navbar from './components/Navbar';
 import AuthProvider from './components/auth/AuthProvider';
 import Register from './components/auth/Register';
 import UserProfile from './components/profile/UserProfile';
+import ProfileViewPage from './components/profile/ProfileViewPage';
+import ProfilePostsPage from './components/profile/ProfilePostsPage';
 import NewsFeedPage from './components/posts/NewsFeedPage';
-import WallPage from './components/posts/WallPage';
 import MainLayout from './components/layout/MainLayout';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import SinglePostPage from './components/posts/SinglePostPage';
@@ -32,11 +33,12 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/feed" element={<ProtectedRoute><NewsFeedPage /></ProtectedRoute>} />
-              <Route path="/wall/:userId" element={<ProtectedRoute><WallPage /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+              <Route path="/profile/:userId/view" element={<ProtectedRoute><ProfileViewPage /></ProtectedRoute>} />
+              <Route path="/profile/:userId/posts" element={<ProtectedRoute><ProfilePostsPage /></ProtectedRoute>} />
+              <Route path="/profile/:userId/followers" element={<ProtectedRoute><FollowersFollowingPage type="followers" /></ProtectedRoute>} />
+              <Route path="/profile/:userId/following" element={<ProtectedRoute><FollowersFollowingPage type="following" /></ProtectedRoute>} />
               <Route path="/post/:postId" element={<ProtectedRoute><SinglePostPage /></ProtectedRoute>} />
-              <Route path="/wall/:userId/followers" element={<ProtectedRoute><FollowersFollowingPage type="followers" /></ProtectedRoute>} />
-              <Route path="/wall/:userId/following" element={<ProtectedRoute><FollowersFollowingPage type="following" /></ProtectedRoute>} />
             </Routes>
           </MainLayout>
         </AuthProvider>

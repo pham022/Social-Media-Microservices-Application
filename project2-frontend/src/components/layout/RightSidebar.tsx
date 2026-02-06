@@ -29,10 +29,7 @@ export default function RightSidebar() {
   };
 
   const handleSelectUser = (selectedUser: Profile) => {
-    const userId = selectedUser.id || selectedUser.profileId;
-    if (userId) {
-      navigate(`/wall/${userId}`);
-    }
+    navigate(`/profile`);
   };
 
   const getInitials = (username: string) => {

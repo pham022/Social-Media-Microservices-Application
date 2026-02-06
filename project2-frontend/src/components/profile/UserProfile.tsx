@@ -5,6 +5,7 @@ import axios from 'axios';
 import API_URLS from '../../util/url';
 import styles from "./Profile.module.css";
 import { useAuth } from '../../hooks/useAuth';
+import { useFollow } from '../../hooks/useFollow';
 import CreatePost from '../posts/CreatePost';
 import { Avatar, Button } from '@mui/material';
 import { Delete as MuiDelete, CloudUpload as MuiUpload } from '@mui/icons-material';
@@ -15,6 +16,7 @@ const UploadIcon = styled(MuiUpload)``;
 const DeleteIcon = styled(MuiDelete)``;
 
 export default function UserProfile() {
+  const { userId: urlUserId } = useParams<{ userId?: string }>();
   const [account, setAccount] = useState<Profile>(
     {       
       username: "",
@@ -30,11 +32,26 @@ export default function UserProfile() {
     // receive context:
     const ctx = useContext(AuthContext);
     const {user} = useAuth();
-    let id = user?.id || user?.profileId;
+    
+    // Use URL param if viewing another user's profile, otherwise use current user's ID
+    const profileUserId = urlUserId ? parseInt(urlUserId, 10) : (user?.id || user?.profileId);
+    const isOwnProfile = !urlUserId || (user?.id === profileUserId) || (user?.profileId === profileUserId);
+    
+    const authToken = localStorage.getItem('authToken') || '';
+    const meUserId = user?.id || user?.profileId;
+    
+    // Use follow hook for viewing other users' profiles
+    // Always pass meUserId even for own profile (hook handles it)
+    const { isFollowing, counts, loading: followLoading, follow, unfollow } = useFollow(
+      profileUserId || 0,
+      authToken,
+      meUserId
+    );
+    
     const [followers, setFollowers] = useState<Profiles>([]);
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [formData, setFormData] = useState({
-      id: id,
+      id: profileUserId,
       username: user?.username || "",
       password: user?.password || "",
       firstName: "",
@@ -44,8 +61,8 @@ export default function UserProfile() {
     });
 
   useEffect(() => {
-    if(id){
-      axios.get(`${API_URLS.profile}/profiles/${id}`)
+    if(profileUserId){
+      axios.get(`${API_URLS.profile}/profiles/${profileUserId}`)
         .then(response => { 
           console.log(response.data);
           setAccount(response.data);
@@ -61,7 +78,7 @@ export default function UserProfile() {
         })
         .catch(error => console.error(error))
     }
-  }, [id]);
+  }, [profileUserId]);
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!account) return;
@@ -99,7 +116,7 @@ export default function UserProfile() {
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!account || !id) {
+    if (!account || !profileUserId) {
       alert('Profile ID not found. Please refresh the page.');
       return;
     }
@@ -108,7 +125,7 @@ export default function UserProfile() {
       // Map frontend formData to backend ProfileDTO structure
       // Backend expects pid (not id), username, password, firstName, lastName, bio, imgurl
       const updateData = {
-        pid: id, // Backend expects pid, not id
+        pid: profileUserId, // Backend expects pid, not id
         username: formData.username || account.username || user?.username || '',
         password: formData.password || account.password || '',
         firstName: formData.firstName || '',
@@ -163,10 +180,27 @@ export default function UserProfile() {
     navigate('/feed');
   };
 
+  const handleFollow = async () => {
+    try {
+      console.log('handleFollow called:', { isFollowing, viewedUserId: profileUserId, meUserId });
+      if (isFollowing) {
+        await unfollow();
+      } else {
+        await follow();
+      }
+    } catch (error: any) {
+      console.error('Follow/unfollow error:', error);
+      const errorMessage = error?.response?.data?.message || 
+                          error?.message || 
+                          'Failed to follow/unfollow user. Please try again.';
+      alert(`Error: ${errorMessage}`);
+    }
+  };
+
   return account ? (
     <div className={styles.profileContainer}>
       <div className={styles.wrapper}>
-        <h2 className={styles.title}>My Profile</h2>
+        <h2 className={styles.title}>{isOwnProfile ? 'My Profile' : `${account.username}'s Profile`}</h2>
         
         {/* Avatar Section */}
         <div className={styles.avatarSection}>
@@ -226,15 +260,33 @@ export default function UserProfile() {
               {account.bio || 'No bio yet'}
             </span>
           </div>
-          <div className={styles.buttonContainer}>
-            <button
-              className={styles.btn}
-              onClick={() => setShowCreateForm((prev) => !prev)}>
-              {showCreateForm ? "Close Form" : "Update Profile"}
-            </button>
-          </div>
+          {!isOwnProfile && isFollowing !== null && (
+            <div className={styles.buttonContainer}>
+              <button
+                className={styles.btn}
+                onClick={handleFollow}
+                disabled={followLoading}
+              >
+                {followLoading ? '...' : isFollowing ? 'Unfollow' : 'Follow'}
+              </button>
+            </div>
+          )}
+          {isOwnProfile && (
+            <div className={styles.buttonContainer}>
+              <button
+                className={styles.btn}
+                onClick={() => navigate(`/profile/${profileUserId}/view`)}>
+                View Profile
+              </button>
+              <button
+                className={styles.btn}
+                onClick={() => setShowCreateForm((prev) => !prev)}>
+                {showCreateForm ? "Close Form" : "Update Profile"}
+              </button>
+            </div>
+          )}
         </div>
-        {showCreateForm && (
+        {isOwnProfile && showCreateForm && (
           <form onSubmit={onSubmitHandler} className={styles.updateForm}>
             <div className={styles.formFields}>
               <div className={styles.formField}>
@@ -283,9 +335,11 @@ export default function UserProfile() {
         )}
       </div>
       
-      <div className={styles.createPostSection}>
-        <CreatePost onPostCreated={handlePostCreated} />
-      </div>
+      {isOwnProfile && (
+        <div className={styles.createPostSection}>
+          <CreatePost onPostCreated={handlePostCreated} />
+        </div>
+      )}
     </div>
   ) : (
     <h1 className={styles.loading}>Loading</h1>

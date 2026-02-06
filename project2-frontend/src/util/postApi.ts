@@ -103,54 +103,162 @@ export const reactionApi = {
   }
 };
 
-// Follow API
+// Follow API - matches backend FollowController structure
+// Uses X-User-Id header and query parameters
+// Base path: /api/follows
 export const followApi = {
-  follow: async (targetUserId: number, authToken: string) => {
-    const token = authToken.startsWith('Bearer ') ? authToken : `Bearer ${authToken}`;
-    await axios.post(
-      `${FOLLOW_SERVICE_URL}/follows/${targetUserId}`,
-      {},
-      { headers: { Authorization: token } }
-    );
+  // Follow a user
+  // POST /api/follows?followingId={followingId}
+  // Header: X-User-Id: {followerId}
+  followUser: async (followingId: number, followerId: number) => {
+    console.log('followUser called:', { followingId, followerId, url: `${FOLLOW_SERVICE_URL}/api/follows` });
+    try {
+      const response = await axios.post(
+        `${FOLLOW_SERVICE_URL}/api/follows`,
+        null,
+        {
+          params: { followingId },
+          headers: { 'X-User-Id': followerId.toString() }
+        }
+      );
+      console.log('followUser success:', response.status, response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('followUser error:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+        config: error.config
+      });
+      throw error;
+    }
   },
 
-  unfollow: async (targetUserId: number, authToken: string) => {
-    const token = authToken.startsWith('Bearer ') ? authToken : `Bearer ${authToken}`;
-    await axios.delete(`${FOLLOW_SERVICE_URL}/follows/${targetUserId}`, {
-      headers: { Authorization: token }
-    });
+  // Unfollow a user
+  // DELETE /api/follows?followingId={followingId}
+  // Header: X-User-Id: {followerId}
+  unfollowUser: async (followingId: number, followerId: number) => {
+    console.log('unfollowUser called:', { followingId, followerId, url: `${FOLLOW_SERVICE_URL}/api/follows` });
+    try {
+      // Use URL directly for DELETE requests to avoid axios issues with query params
+      const url = `${FOLLOW_SERVICE_URL}/api/follows?followingId=${followingId}`;
+      const response = await axios.delete(url, {
+        headers: { 'X-User-Id': followerId.toString() }
+      });
+      console.log('unfollowUser success:', response.status);
+      return response.data;
+    } catch (error: any) {
+      console.error('unfollowUser error:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+        config: error.config
+      });
+      throw error;
+    }
   },
 
-  getFollowing: async (authToken: string) => {
-    const token = authToken.startsWith('Bearer ') ? authToken : `Bearer ${authToken}`;
-    const response = await axios.get(`${FOLLOW_SERVICE_URL}/follows/me/following`, {
-      headers: { Authorization: token }
+  // Get list of user IDs that a user is following
+  // GET /api/follows/following?userId={userId}
+  getFollowing: async (userId: number) => {
+    const response = await axios.get(`${FOLLOW_SERVICE_URL}/api/follows/following`, {
+      params: { userId }
     });
     return response.data;
   },
 
+  // Get list of user IDs that follow a user
+  // GET /api/follows/followers?userId={userId}
   getFollowers: async (userId: number) => {
-    const response = await axios.get(`${FOLLOW_SERVICE_URL}/follows/${userId}/followers`);
+    const response = await axios.get(`${FOLLOW_SERVICE_URL}/api/follows/followers`, {
+      params: { userId }
+    });
     return response.data;
+  },
+
+  // Get follower/following counts for a user
+  // GET /api/follows/stats?userId={userId}
+  // Returns: { userId, followingCount, followersCount }
+  getStats: async (userId: number) => {
+    const response = await axios.get(`${FOLLOW_SERVICE_URL}/api/follows/stats`, {
+      params: { userId }
+    });
+    return response.data;
+  },
+
+  // Check if followerId is following followingId
+  // GET /api/follows/check?followingId={followingId}
+  // Header: X-User-Id: {followerId}
+  checkFollow: async (followingId: number, followerId: number) => {
+    try {
+      const response = await axios.get(`${FOLLOW_SERVICE_URL}/api/follows/check`, {
+        params: { followingId },
+        headers: { 'X-User-Id': followerId.toString() }
+      });
+      return response.data;
+    } catch (error: any) {
+      console.error('checkFollow error:', error.response?.data || error.message);
+      return false;
+    }
+  },
+
+  // Legacy methods for backward compatibility
+  follow: async (targetUserId: number, authToken: string, followerId?: number) => {
+    let currentUserId = followerId;
+    if (!currentUserId) {
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        currentUserId = user.id || user.profileId;
+      }
+    }
+    if (!currentUserId) {
+      throw new Error('User ID not found');
+    }
+    return followApi.followUser(targetUserId, currentUserId);
+  },
+
+  unfollow: async (targetUserId: number, authToken: string, followerId?: number) => {
+    let currentUserId = followerId;
+    if (!currentUserId) {
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        currentUserId = user.id || user.profileId;
+      }
+    }
+    if (!currentUserId) {
+      throw new Error('User ID not found');
+    }
+    return followApi.unfollowUser(targetUserId, currentUserId);
   },
 
   getFollowingIds: async (userId: number) => {
-    const response = await axios.get(`${FOLLOW_SERVICE_URL}/follows/${userId}/following`);
-    return response.data;
+    return followApi.getFollowing(userId);
   },
 
-  isFollowing: async (targetUserId: number, authToken: string) => {
-    const token = authToken.startsWith('Bearer ') ? authToken : `Bearer ${authToken}`;
-    const response = await axios.get(
-      `${FOLLOW_SERVICE_URL}/follows/me/is-following/${targetUserId}`,
-      { headers: { Authorization: token } }
-    );
-    return response.data.isFollowing;
+  isFollowing: async (targetUserId: number, authToken: string, followerId?: number) => {
+    let currentUserId = followerId;
+    if (!currentUserId) {
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        currentUserId = user.id || user.profileId;
+      }
+    }
+    if (!currentUserId) {
+      return false;
+    }
+    return followApi.checkFollow(targetUserId, currentUserId);
   },
 
   getCounts: async (userId: number) => {
-    const response = await axios.get(`${FOLLOW_SERVICE_URL}/follows/${userId}/counts`);
-    return response.data;
+    const stats = await followApi.getStats(userId);
+    // Map backend response to expected format
+    return {
+      followers: stats.followersCount || 0,
+      following: stats.followingCount || 0
+    };
   }
 };
 

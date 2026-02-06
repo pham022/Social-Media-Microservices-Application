@@ -7,11 +7,10 @@ import styles from './Post.module.css';
 
 interface PostProps {
   post: PostWithDetails;
-  onViewUserWall: (userId: number) => void;
   onUpdatePost?: () => void;
 }
 
-export default function Post({ post, onViewUserWall, onUpdatePost }: PostProps) {
+export default function Post({ post, onUpdatePost }: PostProps) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
@@ -191,7 +190,7 @@ export default function Post({ post, onViewUserWall, onUpdatePost }: PostProps) 
 
   const handleUsernameClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onViewUserWall(post.userId);
+    navigate(`/profile`);
   };
 
   const handleDeletePost = async (e: React.MouseEvent) => {
@@ -377,7 +376,7 @@ export default function Post({ post, onViewUserWall, onUpdatePost }: PostProps) 
               <>
                 {/* Deduplicate comments by ID before rendering */}
                 {Array.from(new Map(comments.map(c => [c.id, c])).values()).map((comment) => (
-                  <CommentItem key={comment.id} comment={comment} onViewUserWall={onViewUserWall} />
+                  <CommentItem key={comment.id} comment={comment} />
                 ))}
                 {hasMoreComments && (
                   <div className={styles.loadMoreComments} onClick={() => loadComments()}>
@@ -393,8 +392,9 @@ export default function Post({ post, onViewUserWall, onUpdatePost }: PostProps) 
   );
 }
 
-function CommentItem({ comment, onViewUserWall }: { comment: Comment; onViewUserWall: (userId: number) => void }) {
+function CommentItem({ comment }: { comment: Comment }) {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [username, setUsername] = useState<string>('');
   const [avatar, setAvatar] = useState<string>('');
   const [loading, setLoading] = useState(true);
@@ -469,7 +469,7 @@ function CommentItem({ comment, onViewUserWall }: { comment: Comment; onViewUser
     <div className={styles.comment}>
       <div
         className={styles.commentAvatar}
-        onClick={() => comment.userId && onViewUserWall(comment.userId)}
+        onClick={() => navigate('/profile')}
       >
         {avatar ? (
           <img src={avatar} alt={username} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
@@ -483,7 +483,7 @@ function CommentItem({ comment, onViewUserWall }: { comment: Comment; onViewUser
         <div className={styles.commentHeader}>
           <span
             className={styles.commentUsername}
-            onClick={() => comment.userId && onViewUserWall(comment.userId)}
+            onClick={() => navigate('/profile')}
             style={{ cursor: 'pointer' }}
           >
             {username}

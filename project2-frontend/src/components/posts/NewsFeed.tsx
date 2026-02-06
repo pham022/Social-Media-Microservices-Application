@@ -6,13 +6,9 @@ import PostComponent from './Post';
 import CreatePost from './CreatePost';
 import styles from './NewsFeed.module.css';
 
-interface NewsFeedProps {
-  onViewUserWall: (userId: number) => void;
-}
-
 const POSTS_PER_PAGE = 10;
 
-export default function NewsFeed({ onViewUserWall }: NewsFeedProps) {
+export default function NewsFeed() {
   const { user } = useAuth();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(false);
@@ -31,12 +27,11 @@ export default function NewsFeed({ onViewUserWall }: NewsFeedProps) {
   }, [followingIds, page]);
 
   const loadFollowing = async () => {
-    if (!user?.id) return;
+    const userId = user?.id || user?.profileId;
+    if (!userId) return;
     
     try {
-      // Get auth token from localStorage or context
-      const token = localStorage.getItem('authToken') || '';
-      const ids = await followApi.getFollowing(token);
+      const ids = await followApi.getFollowing(userId);
       setFollowingIds(ids);
     } catch (error) {
       console.error('Error loading following:', error);
@@ -135,7 +130,6 @@ export default function NewsFeed({ onViewUserWall }: NewsFeedProps) {
           <PostComponent
             key={post.id}
             post={post as any}
-            onViewUserWall={onViewUserWall}
             onUpdatePost={handleUpdatePost}
           />
         ))}
