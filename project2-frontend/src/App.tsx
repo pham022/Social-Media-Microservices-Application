@@ -10,6 +10,7 @@ import NewsFeedPage from './components/posts/NewsFeedPage';
 import WallPage from './components/posts/WallPage';
 import MainLayout from './components/layout/MainLayout';
 import { useAuth } from './hooks/useAuth';
+import MyWallPage from './components/posts/MyWallPage';
  
 function App() {
   return (
@@ -17,12 +18,17 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <Navbar />
+ 
+ 
           <header className="appHeader">
             <h1 className="appTitle">Twatter</h1>
             <p className="appSubtitle">
-              Join the conversation. Share your thoughts. Connect with friends. Dont be a <span className="twatHighlight">Twat</span>.
+              Join the conversation. Share your thoughts. Connect with friends.
+              Dont be a <span className="twatHighlight">Twat</span>.
             </p>
           </header>
+ 
+ 
           <MainLayout>
             <Routes>
               <Route path="/" element={<HomeRedirect />} />
@@ -30,24 +36,28 @@ function App() {
               <Route path="/wall/:userId" element={<WallPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+ 
+ 
+              {/* My profile */}
               <Route path="/profile" element={<UserProfile />} />
+ 
+ 
+              {/* View someone else's profile (needed for search click) */}
+              <Route path="/profile/:userId" element={<UserProfile />} />
             </Routes>
           </MainLayout>
         </AuthProvider>
       </BrowserRouter>
     </div>
   );
-}
-
-// Redirect home to feed
-function HomeRedirect() {
+ }
+ 
+ 
+ function HomeRedirect() {
   const { user } = useAuth();
-  if (user) {
-    return <Navigate to="/feed" replace />;
-  }
-  return <Navigate to="/login" replace />;
-}
+  return user ? <Navigate to="/feed" replace /> : <Navigate to="/login" replace />;
+ }
  
-export default App;
  
-
+ export default App;
+ 
